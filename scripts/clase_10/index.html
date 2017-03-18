@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Write your site description here. It will be used as your sites meta description as well!">
+
+    <title>TADP</title>
+
+    <link rel="canonical" href="http://tadp-utn-frba.github.io/scripts/clase_10/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/clean-blog.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+
+    <!-- Prism.js CSS -->
+    <link rel="stylesheet" href="/css/prism.css">
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href='//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+
+<body>
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">TADP</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="/">Home</a>
+                </li>
+                
+                <li>
+                    <a href="/quienessomos/">Quienes Somos</a>
+                </li>
+                
+                <li>
+                    <a href="/administrativos/">Temas Administrativos</a>
+                </li>
+                
+                <li>
+                    <a href="/contenidos/">Contenidos</a>
+                </li>
+                
+                <li>
+                    <a href="/cursada/">Cursada</a>
+                </li>
+                
+                <li>
+                    <a href="/material/">Material</a>
+                </li>
+                
+                <li>
+                    <a href="/planificacion/">Planificación</a>
+                </li>
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+
+    <!-- Page Header -->
+<header class="intro-header" style="background-image: url('/img/home-bg.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="site-heading">
+                    <h1>TADP</h1>
+                    <hr class="small">
+                    <span class="subheading">Script Clase 10 TADP 1C2016</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Main Content -->
+<div class="container">
+	<div class="row">
+		<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+			<h1 id="tadp---2015-c2---clase-10---comportamiento-vs-estructura-orden-superior-monadas-y-monoides">TADP - 2015 C2 - Clase 10 - Comportamiento vs Estructura (Orden Superior), Monadas y Monoides</h1>
+
+<h2 id="intro">Intro</h2>
+
+<p>Empezamos repasando la solución a la que habíamos llegado la clase pasada para el ejercicio del microprocesador:</p>
+
+<p><a href="https://github.com/tadp-utn-frba/tadp-clases/tree/scala-microprocesador/funcional-inmutable">repo funcional-inmutable
+</a></p>
+
+<p>Teníamos una solución que ejecutaba el programa recursivamente, nuestros objetos eran inmutables y para manejar los resultados (tanto normales como excepcionales) teníamos distintos tipos de resultados de ejecución (Ejecutando, Halt y Error) que contenían al micro en el estado correspondiente a ese punto de la ejecución.</p>
+
+<p>Si en algún momento se llegaba a un resultado que no fuera Ejecutando, la recursión terminaba retornando ese último estado alcanzado, y también se cortaba la recursividad al llegar a la lista vacía lógicamente.</p>
+
+<h2 id="orden-superior">Orden Superior</h2>
+
+<p>El siguiente paso que queremos dar es eliminar el algoritmo recursivo cambiándolo por una abstracción de orden superior que es la reducción (o fold), y de esa forma poder olvidarnos del manejo estructural de la lista de instrucciones y sólo pensar cómo pasar del estado de ejecución anterior al siguiente en base a la instrucción a ejecutar:</p>
+
+<p><a href="https://github.com/tadp-utn-frba/tadp-clases/tree/scala-microprocesador/funcional-fold">repo funcional-fold</a></p>
+
+<p>Vemos cómo el matcheo de la lista vacía para retornar un resultado de ejecución Ejecutando con el micro en el estado en el cual nos haya llegado por parámetro se vuelve la semilla del foldeo.</p>
+
+<p>Otra diferencia destacable entre la solución recursiva y la que usa fold es que esta nueva solución no va a dejar de trabajar sobre el resto de la lista si se llega a un resultado de Halt o Error, cosa que sí sucedía anteriormente, sino que va a procesar la lista entera (porque eso es lo que hace el fold) motivo por el cual la función que le pasamos se encarga de ignorar la ejecución de la instrucción recibida si el resultado anterior era un Error o Halt.</p>
+
+<p>Esta solución todavía no es del todo satisfactoria, pero antes de dar el paso siguiente, vamos a tratar de reentender las listas y las funciones de orden superior para trabajar sobre ellas en términos más abstractos.</p>
+
+<p>Una lista es un tipo algebraico que tiene dos formas: Nil (lista vacía) y x::xs (con cabeza y cola, cuya cola es una lista), estas formas pueden usarse para trabajar mediante pattern matching. Además viene con un set de funciones básicas, a partir de las cuales se puede construir todo lo demás: head, tail e isEmpty.</p>
+
+<p>Lo que nos va a interesar por un rato es pensar a la lista como una cajita que sirve para contener otra cosa, y no pensar en los detalles estructurales. La caja cerrada podría o no tener contenido, al usar pattern matching o funciones básicas como las mencionadas anteriormente lo que hacemos es abrir la caja para saber si tiene algo y, en ese caso, trabajar con su contenido.</p>
+
+<p>Sin embargo al usar funciones de orden superior podemos delegar el trabajo de revisar la caja a alguien más y sólo pensar en términos del contenido cuando eso es lo que realmente nos interesa.</p>
+
+<p>Entonces supongamos que tenemos una función f cuyo dominio es de tipo A, y lo que tenemos es un valor de tipo A, podemos usar esa función f directamente sobre dicho valor. Sin embargo, si tenemos una caja cuyo contenido es de tipo A, no vamos a poder usar esa función f sobre la caja, pero podríamos usar una función de orden superior que sepa trabajar con la caja para aplicar f sobre su contenido.</p>
+
+<p>Definimos en estos términos qué es lo que hacen las operaciones de orden superior que nos van a interesar:</p>
+
+<ul>
+  <li>
+    <p>El map: dada una cajita[A] y una función A =&gt; B, abre la cajita, aplica la función al contenido y retorna una cajita[B].</p>
+  </li>
+  <li>
+    <p>El filter: dada una cajita[A] y una función A =&gt; Bool, abre la cajita, elige el contenido en base a la función y retorna una cajita[A].</p>
+  </li>
+  <li>
+    <p>El flatmap: dada una cajita[A] y una función A =&gt; cajita[B], transforma el contenido como el map y además junta el contenido de la/s cajita/s que obtuvo aplicando la función en una cajita[B] y retorna esa cajita.</p>
+  </li>
+  <li>
+    <p>El fold: dada una cajita[A], una función para reducir a algo de tipo B y una semilla de tipo B, me retorna, no una cajita, sino un B! Lo que nos va a interesar de esta operación al pensar en cajitas es que es la única operación que rompe la cajita, dejándonos decidir cómo hacerlo, no sólo por la función que recibe sino porque la semilla sirve para saber qué retornar cuando la cajita no tiene contenido.</p>
+  </li>
+</ul>
+
+<p>En el fold nos importa saber lo que hay adentro, en el resto no, porque llega una caja cerrada y sale una caja cerrada. En fold sale un elemento.</p>
+
+<p>Al usar estas operaciones, en ningún momento nos interesa si la caja realmente tiene o no contenido, podemos pensar siempre para el caso en el que sí lo tiene y sólo preocuparnos por el caso en el que no cuando necesitamos romper la caja. Si tenemos una secuencia de operaciones sobre el contenido de la caja, no hace falta trabajar con pattern matching en cada paso, las mismas operaciones se encargan de decidir qué ejecutar y qué no en base a la forma de la caja que haya llegado, con lo cual podemos pensar siempre en el caso positivo en el cual la caja tiene contenido para poder secuenciar el comportamiento que queremos.</p>
+
+<p>La ventaja de poder trabajar de esta forma es análoga a la que se obtiene al usar excepciones adecuadamente en vez de códigos de error como valores de retorno de un envío de mensaje. En vez de tener que checkear luego de mandar ese mensaje por el código de error para ver si se puede continuar con la siguiente operación o no, podemos asumir que funcionó correctamente para seguir trabajando y esperar que en el caso contrario la operación tire un error que burbujee hasta un punto en el cual sepamos cómo recuperarnos del mismo.</p>
+
+<p>Si el resultado de un filter era una cajita sin contenido, y hacemos un map directo sobre el resultado del filter, obtendremos otra cajita sin contenido. Es intuitivo y no tenemos por qué preocuparnos al respecto.</p>
+
+<p>Ahora que ya tenemos la intuición sobre estas operaciones en término de contenedores, introducimos dos nuevos tipos de contenedores muy comunes que también pueden trabajarse con estas operaciones.</p>
+
+<h2 id="option">Option</h2>
+
+<p>Option es otro tipo de cajita que sirve para cuando podría o no haber un valor como resultado de una operación. Por ejemplo:</p>
+
+<pre><code class="language-scala">list.find(_.esAzul)
+</code></pre>
+
+<p>Tal vez haya algo que cumpla con ser azul, o tal vez no. Por ese motivo no se puede simplemente hacer:</p>
+
+<pre><code class="language-scala">list.find(_.esAzul).dameAlgo
+</code></pre>
+
+<p>…porque qué pasa si no había ningún azul? no siempre voy a poder obtener algo a lo que le pueda mandar el mensaje que quiero.</p>
+
+<p>El tipo del find es: find(p: (A) ⇒ Boolean): Option[A]</p>
+
+<p>Que significa que puede retornar o bien Some(valor:A) o None. A partir de eso podríamos hacer algo como esto:</p>
+
+<pre><code class="language-scala">list.find(_.esAzul) match {
+
+ case Some(azul) =&gt; Some(azul.dameAlgo)
+
+ case None =&gt; None
+
+}
+</code></pre>
+
+<p>O sino usando la funcionalidad básica de Option que son isEmpty y get (que en caso de ser None explota):</p>
+
+<pre><code class="language-scala">val resultado = list.find(_esAzul)
+if(!resultado.isEmpty) Some(resultado.get.dameAlgo) else None
+</code></pre>
+
+<p>Pero como Option es un contenedor, también podríamos secuenciar este comportamiento usando las operaciones de orden superior mencionadas anteriormente:</p>
+
+<p>list.find(<em>.esAzul).map {</em>.dameAlgo}</p>
+
+<p>De las 4 operaciones de orden superior que vimos, la única que varía un poco entre List y Option es el fold. Para poder romper la caja siendo una lista necesito reducir todos los elementos que contiene a uno solo, y para lograr eso la función de reducción espera dos parámetros. En el caso del Option, como a lo sumo contiene un valor, romper la caja en el caso de ser un Some dependerá exclusivamente de dicho valor. Por ese motivo cada estructura tiene un fold a su medida, List define:</p>
+
+<pre><code class="language-scala">foldLeft[B](z: B)(f: (B, A) ⇒ B): B
+foldRight[B](z: B)(op: (A, B) ⇒ B): B
+</code></pre>
+
+<p>mientras que Option define:</p>
+
+<pre><code class="language-scala">fold[B](ifEmpty: ⇒ B)(f: (A) ⇒ B): B.
+</code></pre>
+
+<p>Por si no me interesa realizar una transformación sobre el valor del Option, en vez de usar fold con una función identidad se puede usar getOrElse que también nos permite romper la caja pasando el valor alternativo en caso de que sea un None.</p>
+
+<p>Por ejemplo, tenemos una jaula (que sería nuestra caja) y adentro una golondrina viva (o no).</p>
+
+<p>Option toma dos valores, None y Some.</p>
+
+<p>Si digo Option[Golondrina] puedo tener cualquiera de los dos, pero lo importante es que sigue saliendo un Option.</p>
+
+<p>En un caso en el que un map nos devolviese un Option (caja), con FlatMap, en vez de devolvernos una caja, nos va a dar un valor: Some o None.</p>
+
+<p>Al fold hay que pasarle la semilla, porque si la caja que le mando es un None es lo que voy a devolver. Y la funcion, va a servir si tengo un Some.</p>
+
+<p>De las cajas no sabemos su contenido, pero sí sabemos su tipo.</p>
+
+<h3 id="try">Try</h3>
+
+<p>El Try es una cajita que nos permite encapsular una excepción o el resultado de una operación exitosa, y permite secuenciar comportamiento sin tener que detenernos a ver si falló o no. A su vez nos permite mantener la información de la causa del problema.</p>
+
+<p>Try tiene dos formas: Success y Failure, los mensajes básicos de acceso para esta estructura son isSuccess, isFailure y get.</p>
+
+<p>Cabe destacar que en el caso de que se haga un filter sobre un Success y el filtrado falle por no cumplirse la condición, lo que se retorna es un Failure con una excepción de tipo NoSuchElementException. De esa forma cualquier comportamiento sobre el Try secuenciado luego de un filtrado fallido no se ejecutará.</p>
+
+<p>Además tiene definidos mensajes propios como:</p>
+
+<pre><code class="language-scala">transform[U](s: T =&gt; Try[U], f: Throwable =&gt; Try[U]): Try[U]
+
+getOrElse[U &gt;: T](default: =&gt; U): U
+
+orElse[U &gt;: T](default: =&gt; Try[U]): Try[U]
+</code></pre>
+
+<p>Y a su vez podemos obtener un Option a partir de un Try (a costa de perder la información del error en caso de que fuera un Failure, ya que el mismo se transforma en un None) mandándole el mensaje toOption.</p>
+
+<p>Try entiende map, flatmap y filter pero no fold, pero ya vimos que hay otra forma de romper la caja y no necesariamente debe ser polimórfico respecto a ese mensaje.</p>
+
+<p>Estas cajitas contenedoras son denominadas Mónadas (o Monoides para en el caso de Try, ya que no cumple con todas las propiedades de las Mónadas). Una construcción propia puede también implementar el comportamiento necesario para poder ser usado de esta forma, por eso para aprovechar estas ideas, hacemos que el ResultadoDeEjecucion, que puede ser pensado como un contenedor de un microprocesador, implemente map, flatmap, filter y fold, y cambiamos la ejecución para que se base en esos mensajes:</p>
+
+<p><a href="https://github.com/tadp-utn-frba/tadp-clases/tree/scala-microprocesador/funcional-monadas">repo funcional-monadas</a></p>
+
+<p>Halt y Error son estados absorbentes, entonces al intentar ejecutar una función en este estado, debería retornarse a sí mismo, mientras que el Ejecutando efectivamente debería ejecutar lo pedido y retornar el próximo resultado de ejecución.</p>
+
+<p>Para la instrucción de IFNZ, como el resultado a retornar depende de las instrucciones internas, usamos un flatmap. En el caso del DIV, el resultado esperado era un Ejecutando si no se dividía por 0, de lo contrario Error, lo cual puede ajustarse a un filter.</p>
+
+<h2 id="for-comprehension">For Comprehension</h2>
+
+<p>Como la anidación de operaciones de orden superior como flatmap, map y filter es muy común y enseguida se puede volver engorroso, hay una sintaxis más amigable que permite linearizarlas que, en Scala, se llama for comprehension. En precompilación se transforman las for comprehensions en la combinación de envíos de mensajes de maps, flatmaps, filters y/o foreachs correspondientes de forma transparente. Esta sintaxis nos permite abstraernos de la cajita a la par de las operaciones que se utilizan por detrás, ya que termina resultando muy intuitivo.</p>
+
+<p>Por ejemplo, una sentencia compleja como la siguiente:</p>
+
+<pre><code class="language-scala">caja.flatmap { e1 -&gt;
+
+  tx1(e1).flatmap { e2 -&gt;
+
+    tx2(e2).filter { e3 -&gt;
+
+      crit(e3)
+
+    }.map { e4 -&gt;
+
+      tx3(e4)
+
+    }
+
+  }
+
+}
+</code></pre>
+
+<p>Puede traducirse usando una sintaxis más lineal de la siguiente forma:</p>
+
+<pre><code class="language-scala">for {
+
+  e1 &lt;- caja
+
+  e2 &lt;- tx1(e1) if crit(e2)
+
+} yield tx(e2)
+</code></pre>
+
+<p>Siendo que ResultadoDeEjecucion funciona actualmente basado en estos mensajes, podemos reescribir el ejecutar nuevamente pero usando for comprehension. Esta solución es mucho más simple de entender que la que manejaba los resultados con map, flatmap y filter. Sin embargo, a pesar de que no lo estemos viendo, esas operaciones se siguen usando por detrás.</p>
+
+<p>Finalmente vemos que ResultadoDeEjecucion es muy similar a un Try, lo único que no se ajusta inicialmente es el tercer estado Halt, pero puede fácilmente volverse un Failure definiendo una excepción para indicar que se ejecutó un HALT. Más allá de eso, la solución que teníamos se mantiene tal cual, porque incluso para las instrucciones más complejas, las operaciones que hacíamos sobre el resultado son las mismas que hay que hacer teniendo un Try.</p>
+
+<p>Pueden verse estas nuevas soluciones comentadas en</p>
+
+<p><a href="https://github.com/tadp-utn-frba/tadp-clases/tree/scala-microprocesador/funcional-monadas/src/main/scala/ar/edu/utn/tadp/microprocesador/package.scala">https://github.com/tadp-utn-frba/tadp-clases/tree/scala-microprocesador/funcional-monadas/src/main/scala/ar/edu/utn/tadp/microprocesador/package.scala
+</a></p>
+
+
+		</div>
+	</div>
+</div>
+
+<hr>
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    <li>
+                        <a href="/feed.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    
+                    <li>
+                        <a href="https://github.com/tadp-utn-frba">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                </ul>
+                <p class="copyright text-muted">Copyright &copy; TADP 2017</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/clean-blog.min.js "></script>
+
+<!-- prism.js -->
+<script src="/js/prism.js "></script>
+
+
+</body>
+
+</html>

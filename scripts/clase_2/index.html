@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Write your site description here. It will be used as your sites meta description as well!">
+
+    <title>TADP</title>
+
+    <link rel="canonical" href="http://tadp-utn-frba.github.io/scripts/clase_2/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/clean-blog.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+
+    <!-- Prism.js CSS -->
+    <link rel="stylesheet" href="/css/prism.css">
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href='//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+
+<body>
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">TADP</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="/">Home</a>
+                </li>
+                
+                <li>
+                    <a href="/quienessomos/">Quienes Somos</a>
+                </li>
+                
+                <li>
+                    <a href="/administrativos/">Temas Administrativos</a>
+                </li>
+                
+                <li>
+                    <a href="/contenidos/">Contenidos</a>
+                </li>
+                
+                <li>
+                    <a href="/cursada/">Cursada</a>
+                </li>
+                
+                <li>
+                    <a href="/material/">Material</a>
+                </li>
+                
+                <li>
+                    <a href="/planificacion/">Planificación</a>
+                </li>
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+
+    <!-- Page Header -->
+<header class="intro-header" style="background-image: url('/img/home-bg.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="site-heading">
+                    <h1>TADP</h1>
+                    <hr class="small">
+                    <span class="subheading">Script Clase 2 TADP 2C2016</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Main Content -->
+<div class="container">
+	<div class="row">
+		<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+			<p>Clase 2 TADP 2C2016</p>
+
+<h2 id="traits-vs-mixins"><strong>Traits vs Mixins</strong></h2>
+<p>Flattening: 
+    - Se define qué traits se van a agregar y cómo en un momento determinado. Luego de eso, para el que usa la clase todo funciona como si el comportamiento traido de los traits fuese propio de la clase.
+Linearización:
+    - Se agregan lugares donde buscar para el method lookup. Hay un orden definido en el cual se recorren todos esos lugares por lo que no es ambiguo la implementación del método que se va a usar.
+Resolución de conflictos:
+    - Automática: hay una manera predeterminada que sabe como resolver el conflicto. Por ej si incluis dos mixines en ruby, el segundo va a tener más precedencia que el primero. 
+    - Manual: cuando hay conflictos, el programador explícitamente tiene que decidir como se resuelve.</p>
+
+<h1 id="continuacin-ejercicio-age-of-empires">Continuación ejercicio age of empires</h1>
+<p>Sobre el ejercicio de la clase anterior agregamos la posibilidad de que los atacantes y defensores puedan “descansar” y los siguientes requerimientos.</p>
+
+<p>El descanso de la guerra</p>
+
+<p>Todas las unidades pueden descansar. Cuando un atacante descansa, tiene el efecto de duplicar su potencial ofensivo en su próximo ataque.
+Cuando un defensor descansa, suma siempre 10 de energía.</p>
+
+<p>Banzai!</p>
+
+<p>La característica del kamikaze es que se comporta como un atacante y un defensor, y su potencial ofensivo es 250, pero luego de atacar, su energía queda en 0.
+Como la unidad va a morir luego de atacar, puede descansar como atacante, pero no debe descansar como defensor.</p>
+
+<p>Atacando de la mano</p>
+
+<p>Queremos que los guerreros formen parte de un pelotón. Cuando un guerrero es atacado, el pelotón puede tomar alguna acción. Ciertos pelotones se retiran cuando alguna de sus unidades es lastimada. Otros pelotones hacen que el guerrero descanse cuando recibe un daño y no está descansado. Un guerrero está descansado cuando su energía es mayor a 40.</p>
+
+<h2 id="implementacin"><strong>Implementación</strong></h2>
+
+<p>Arranquemos por el Defensor, cuando un defensor descansa, suma 10 de energía.</p>
+
+<pre><code class="language-ruby">module Defensor
+
+    def descansar
+        self.energia += 10
+    end
+
+end
+</code></pre>
+
+<p>Por otro lado, cuando le decimos “descansar” al atacante, este ataca con el doble de energía en su próxima pelea.</p>
+
+<pre><code class="language-ruby">module Atacante
+
+  def atacar(un_defensor)
+    if self.potencial_ofensivo &gt; un_defensor.potencial_defensivo
+      danio = self.potencial_ofensivo - un_defensor.potencial_defensivo
+      un_defensor.sufri_danio(danio)
+    end
+    self.descansado = false
+  end
+
+  def potencial_ofensivo
+    self.descansado ? @potencial_ofensivo * 2 : @potencial_ofensivo
+  end
+
+  def descansar
+    self.descansado = true
+  end
+
+end
+</code></pre>
+
+<p>Hasta acá todo muy bien, pero ahora, surge el problema de que Guerrero, como usa el mixin Atacante, y el mixin Defensor, estaría trayendo dos métodos iguales, por lo que surge un conflicto. Entonces la pregunta es, ¿cómo se va a comportar el guerrero si le mandamos el mensaje descansar?</p>
+
+<p>No se va a romper, porque los conflictos de mixins se resuelven automáticamente por medio de la linearización. En el caso de ruby, la segunda definición va a pisar la primera, entonces por cómo definimos Guerrero, al incluir último el Defensor, la definición del mixin Defensor se va a ejecutar y no la de Atacante.</p>
+
+<p>Pero para los Guerreros vamos a querer que descanse como atacante y luego como defensor (o sea de ambas formas).</p>
+
+<p>Para lograr esto, hay diferentes soluciones:</p>
+
+<h4 id="hacer-un-decorator-con-los-mixines-en-los-que-cada-mixin-llama-a-super-y-tienen-un-mixin-padre-con-el-caso-base-que-en-este-ejemplo-simplemente-no-hace-nada">Hacer un ‘decorator’ con los mixines, en los que cada mixin llama a super y tienen un mixin padre con el caso base, que en este ejemplo simplemente no hace nada.</h4>
+
+<pre><code class="language-ruby">module Atacante
+  include Unidad
+  
+  def descansar
+    self.descansado = true
+    super
+  end
+end
+ 
+module Defensor
+  include Unidad
+  
+  def descansar
+    self.energia += 10
+    super
+  end
+end
+ 
+module Unidad
+  def descansar
+  end
+end
+ 
+class Guerrero
+  include Atacante
+  include Defensor
+end
+</code></pre>
+
+<p>En este caso, si Guerrero incluye tanto Atacante como Defensor, el method lookup seguiría el siguiente camino resultado de la linearización:</p>
+
+<p>Guerrero ~&gt; Defensor ~&gt; Atacante ~&gt; Unidad ~&gt; Object</p>
+
+<p>Entonces, Defensor y Atacante van a hacer lo suyo y luego van a delegar la responsabilidad de seguir descansando al siguiente de la lista. El objetivo de Unidad es terminar la cadena, si no estuviera ahí eventualmente se llegaría a un NoMethodError porque un Object no conoce el mensaje descansar.  </p>
+
+<h4 id="crear-alias-methods-que-nos-provee-ruby">Crear alias methods que nos provee ruby:</h4>
+
+<pre><code class="language-ruby">class Guerrero
+  include Atacante
+  
+  alias_method :descansar_atacante, :descansar
+  
+  include Defensor
+  
+  alias_method :descansar_defensor, :descansar
+
+  def descansar
+    self.descansar_atacante
+    self.descansar_defensor
+  end
+end
+</code></pre>
+
+<p>Nótese que no solucionamos el conflicto sólo con definir los alias, lo que vamos a tener son tres métodos: :descansar_atacante, :descansar_defensor y :descansar (cuya implementación va a coincidir con la de Defensor).</p>
+
+<p>Es necesario sobreescribir el método :descansar para lograr el comportamiento que queríamos.</p>
+
+<h2 id="kamikaze"><strong>Kamikaze</strong></h2>
+<p>Ahora queremos agregar los Kamikaze, que son Atacantes y Defensores, pero descansan solo como Atacante porque van a morir de todas maneras:</p>
+
+<pre><code class="language-ruby">class Kamikaze
+  include Defensor
+  include Atacante
+
+  def initialize(energia=100, potencial_defensivo=10)     
+    self.potencial_ofensivo = 250 
+    self.energia = energia     
+    self.potencial_defensivo = potencial_defensivo   
+  end
+
+  def atacar(un_defensor)
+    super(un_defensor)
+    self.energia = 0
+  end
+  
+end
+</code></pre>
+
+<h2 id="pelotones"><strong>Pelotones</strong></h2>
+<p>A continuación vamos a agregar los Pelotones, que tienen un conjunto de Guerreros que lo integran. Queremos que entiendan descansar y que hagan descansar a todos los integrantes que estén cansados. Un integrante está cansado cuando su energía es menor o igual a 40. ¿Queremos que el Peloton sea un Defensor o un Atacante? ¿Qué aportan estos Mixins en cuanto a compartición de código? ¿Sería una buena idea desde el punto de vista de la naturaleza?</p>
+
+<pre><code class="language-ruby">class Guerrero
+  attr_accessor :peloton
+end
+
+class Peloton
+  attr_accessor :guerreros
+
+  def initialize(integrantes)
+     self.integrantes = integrantes
+     self.integrantes.each { |integrante|integrante.peloton = self} 
+  end.
+
+  def descansar     
+    cansados = self.integrantes.select { |integrante| 
+      integrante.cansado     
+    }     
+    cansados.each { |integrante| 
+      integrante.descansar 
+    }  
+  end
+
+end
+</code></pre>
+
+<p>Cabe destacar que los bloques (tanto si los escribimos con llaves como con do y end) <strong>no son objetos</strong> y sólo se puede pasar un bloque como último parámetro del método.</p>
+
+<p>Como necesitamos que los guerreros puedan avisarle a su pelotón que sufrieron daño para que el pelotón decida cómo reaccionar, tenemos que redefinir cómo reciben daño los Guerreros.</p>
+
+<pre><code class="language-ruby">class Guerrero
+
+  def sufri_danio(danio)
+    super(danio)
+    self.lastimado if cansado 
+  end
+  
+  def cansado     
+    self.energia &lt;= 40
+  end 
+
+end
+</code></pre>
+
+<p>Ahora, lo que vamos a hacer es modelar las estrategias que sigue el Pelotón, donde cada estrategia es una clase distinta (ver patrón Strategy):</p>
+
+<pre><code class="language-ruby">class Peloton
+  attr_accessor :integrantes, :retirado, :estrategia
+
+  def initialize(integrantes, estrategia) 
+    self.integrantes = integrantes
+    self.estrategia = estrategia
+    self.integrantes.each { |integrante| 
+      integrante.peloton = self
+    }
+  end
+
+  def lastimado
+    self.estrategia.lastimado(self)
+  end
+
+  def retirate
+    self.retirado = true
+  end
+end
+
+class Descansador
+  def lastimado(peloton)
+    peloton.descansar
+  end
+end
+
+class Cobarde
+  def lastimado(peloton)
+   peloton.retirate
+  end
+end
+</code></pre>
+
+<p>El problema que tenemos aca es que cada vez que se quiera crear un nuevo tipo de estrategia, debe crearse una nueva clase. Esto en principio no es muy problemático, pero es algo que puede ser molesto si hay muchos tipos de estrategias para cuando se lastima el pelotón, tendría un montón de clases para que definan sólo un método.</p>
+
+<p>Una alternativa para este problema sería que el Pelotón conozca un bloque de código en vez de una instancia de Descansador o Cobarde. Si bien los bloques de Ruby no son objetos, y necesitaríamos que lo sean para que el pelotón lo conozca y lo pueda ejecutar cuando sea necesario mandándole un mensaje, lo que podemos usar son procs o lambdas, que <strong>sí son objetos</strong>. Para evitar confusiones a los procs y lambdas vamos a decirles closures, después podemos ver en qué se diferencian pero no hace al ejemplo.</p>
+
+<p>La parte simpática de tener una clase por cada estrategia era la facilidad de creación de un ejército descansador por ejemplo, ya que si tenemos que inicializarlo con el closure adecuado podría llevarnos a repetir lógica. Por eso definimos métodos de clase que devuelven el Peloton creado y configurado con el código de la acción a tomar.</p>
+
+<p>Para definir estos métodos de clase vamos a esperar que nos pasen bloques y en el método convertirlo en un closure que pueda ser referenciado por el pelotón y usado más adelante con el mensaje call.</p>
+
+<pre><code class="language-ruby">class Peloton
+  attr_accessor :integrantes, :retirado, :estrategia
+
+  def self.cobarde(integrantes) 
+    self.new(integrantes) {|peloton| 
+      peloton.retirate
+    }
+  end
+
+  def self.descansador(integrantes)
+    self.new( integrantes) { |peloton| 
+      peloton.descansar 
+    }
+  end
+
+  def initialize(integrantes, &amp;estrategia)
+    self.integrantes = integrantes
+    self.estrategia = estrategia
+    self.integrantes.each { |integrante| 
+      integrante.peloton = self
+    }
+  end
+
+  def lastimado(defensor)
+    self.estrategia.call(self)
+  end
+
+end
+</code></pre>
+
+<p>Retomando el tema de las diferencias entre procs y lambdas, los procs no checkean la cantidad de argumentos que reciben mientras que las lambdas sí. Por otro lado también hay una diferencia con el uso de return dentro de una lambda o de un proc, ya que en return en la lambda sólo finaliza la ejecución de ella misma sin afectar al contexto en el cual se encuentra, mientras que el proc hace que se retorne del método que lo contiene.</p>
+
+<p>Tanto procs como lambdas son instancias de la clase Proc.</p>
+
+<pre><code class="language-ruby">lam = lambda { |x| puts x }    # creates a lambda that takes 1 argument
+lam.call(2)                    # prints out 2
+lam.call                       # ArgumentError: wrong number of arguments (0 for 1)
+lam.call(1,2,3)                # ArgumentError: wrong number of arguments (3 for 1)
+
+proc = Proc.new { |x| puts x } # creates a proc that takes 1 argument
+proc.call(2)                   # prints out 2
+proc.call                      # returns nil
+proc.call(1,2,3)               # prints out 1 and forgets about the extra arguments
+---------------------------------------------------------------------------------------------
+def lambda_test
+  lam = lambda { return }
+  lam.call
+  puts "Hello world"
+end
+
+lambda_test                 # calling lambda_test prints 'Hello World'
+
+
+def proc_test
+  proc = Proc.new { return }
+  proc.call
+  puts "Hello world"
+end
+
+proc_test                 # calling proc_test prints nothing
+------------------------------
+a = 5
+p = proc {a = a + 1}
+p.call # 6
+p.call # 7
+
+a   # 7
+</code></pre>
+
+<h2 id="anexo"><strong>Anexo</strong></h2>
+
+<p><strong>MIXINS</strong></p>
+
+<p>Si lo que queremos es incluir comportamiento de n modules, pero no nos importa utilizar un método que comparten (en este caso descansar), podemos incluir a los modules de cualquier forma, y no va a influir en lo que hagamos después. Por el contrario, si lo que queremos es utilizar algun método que aparece en más de un module, tenemos que resolver los conflictos que se presenten.</p>
+
+<p><strong>MIXINS: Resolución de conflictos</strong></p>
+
+<p>En este ejemplo, vemos que un Atacante no descansa de la misma forma que un Defensor, por lo cual podemos tomar varios caminos</p>
+
+<ol>
+  <li>Si lo que queremos es incluir comportamiento de ambos, pero ademas nos interesa que descanse como uno o como el otro, entonces el que nos interesa es el que deberia estar incluido mas abajo, porque al ser su superclase más inmediata es del primero que toma el método cuando no lo encuentra en Guerrero. Esto conlleva a un grave problema de todas formas, ya que si ambos (aunque no es muy común) tuviesen n cantidad de métodos que se llaman igual pero por algun motivo hacen cosas diferentes, ya no seríamos libres de elegir cuál toma prioridad por sobre el otro.</li>
+  <li><strong>Alias methods</strong>: Nos sirven para poder renombrar estos métodos compartidos con otro nombre y así poder utilizarlos, tanto si queremos separar su comportamiento como si queremos juntarlos. En el ejemplo, vemos que les cambia el nombre a ambos metodos para justamente poder usar a los dos. Ahora sí, una vez que ya tengo estos métodos separados puedo entonces si quiero definir un nuevo método descansar, que ejecute a ambos. </li>
+  <li>Tambien habíamos visto en clase una alternativa usando <strong>super</strong>, ya que cuando incluimos a un module por debajo del otro quedan como si fuesen superclases una de la otra (recordar que si hago ancestors de la clase que incluye a los modules, aparecen los modules y sus ancestors tambien), y entonces el module que se encuentre mas arriba va a ser la superclase mas lejana. 
+En el caso de descansar, podríamos haber definido solo el alias method para Atacante, y que cuando definimos el nuevo descansar ejecute super y luego a descansar_atacante.</li>
+</ol>
+
+<p>Hay que notar que si nosotros hubiésemos incluido más modules, podríamos hacer super (si todos tienen descansar en común) del último que incluimos, porque es la superclase inmediata, y del resto, definir alias methods.</p>
+
+<pre><code class="language-ruby">[38] pry(main)&gt; Guerrero.ancestors
+=&gt; [Guerrero, Defensor, Atacante, Object, PP::ObjectMixin, Kernel, BasicObject]
+### Aca vemos que su primer Superclase es Defensor.
+
+
+class Guerrero
+    include Atacante
+    alias_method :descansar_atacante, :descansar
+    include Defensor
+    def descansar
+         self.descansar_atacante  super
+    end  
+end  
+
+[39] pry(main)&gt; un_guerrero = Guerrero.new
+=&gt; #&lt;Guerrero2:0x0000000258f668&gt;
+[40] pry(main)&gt; un_guerrero.descansar
+soy atacante
+soy defensor
+</code></pre>
+
+<p><strong>Lazy Initialization</strong></p>
+
+<p>Podemos usar <code>||=</code> para inicializar una variable, pero hay que tomar algunas consideraciones con eso. Hay que tener en cuenta que Ruby tiene algunos valores que considera que son false o que son true. Por ejemplo, a nil lo considera false, y otros valores como numeros, letras, etc, los considera true.
+Supongamos que quiero inicializar<code>@a</code>:</p>
+
+<pre><code class="language-ruby">def inicializar
+ @a ||= @b
+end
+</code></pre>
+
+<pre><code class="language-ruby">### a. Si @variable es true o se considera true, toma el valor de  @a, sin importar el valor de @b
+[15] pry(main)&gt; @a = 3
+=&gt; 3
+[16] pry(main)&gt; @b = false
+=&gt; false
+[17] pry(main)&gt; @a ||= @b
+=&gt; 3
+[18] pry(main)&gt; @b = 4
+=&gt; 4
+[19] pry(main)&gt; @a ||= @b
+=&gt; 3
+
+### b. Si @a es false o se considera false, toma el valor de @b
+
+ pry(main)&gt; @a = nil
+=&gt; nil
+[2] pry(main)&gt; @b = 3
+=&gt; 3
+## Aca vemos que al hacer || devuelve el que considera true, o sea @b
+[3] pry(main)&gt; @a || @b    
+=&gt; 3
+[4] pry(main)&gt; @a   ## @a sigue siendo nil
+=&gt; nil
+[5] pry(main)&gt; @a ||= @b    ##Lazy initialization
+=&gt; 3
+[6] pry(main)&gt; @a
+=&gt; 3
+
+### c. Si ambos son false o se consideran false, siempre toma el segundo valor.
+
+[12] pry(main)&gt; @a = nil
+=&gt; nil
+[13] pry(main)&gt; @b = false
+=&gt; false
+[14] pry(main)&gt; @a ||= @b
+=&gt; false
+</code></pre>
+
+<h2 id="sobre-bloques-como-objetos"><strong>Sobre bloques como objetos</strong></h2>
+
+<p>Ademas de todo lo visto de bloques, puede ser muy útil guardar un bloque como un objeto (un proc) y ya vimos que lo único que hay que hacer es agregar la palabra proc antes del mismo. Esto permite que podamos guardarlo en una variable y que le podamos hacer:</p>
+
+<pre><code class="language-ruby">@a_block.call(...args...)
+</code></pre>
+
+<p>Ahora, suponiendo que queremos revertir esto y convertir el objeto que era un bloque, en un bloque de nuevo, lo único que tenemos que hacer es agregar un <code>&amp;</code>, por ejemplo: <code>&amp;@a_block</code>, ya no es un objeto, sino un bloque, pero hay que entender que lo podemos hacer mientras un metodo lo vaya a recibir como argumento. 
+Un método puede recibir solo un bloque, pero varios argumentos. Por ejemplo:</p>
+
+<pre><code class="language-ruby">[1] pry(main)&gt; def un_metodo(a,b,&amp;a_block)
+### Para poder mandarle un bloque hay que agregar &amp;
+[1] pry(main)*   a_block.call
+[1] pry(main)* end  
+=&gt; :un_metodo
+</code></pre>
+
+<p>Es un método que va a recibir dos argumentos y un bloque. Si yo tuviese un proc <code>@a_proc</code>, para pasárselo efectivamente debería hacer <code>&amp;@a_proc</code>.
+Probamos lo que pasa:</p>
+
+<pre><code class="language-ruby">[2] pry(main)&gt; @a_proc = proc do "hello!" end
+=&gt; #&lt;Proc:0x0000000205c600@(pry):101&gt;
+
+### Miren lo que pasa si al metodo le paso un proc:
+[3] pry(main)&gt; un_metodo 0, 0, @a_proc
+ArgumentError: wrong number of arguments (given 3, expected 2)
+from (pry):79:in `un_metodo'
+</code></pre>
+
+<pre><code class="language-ruby">### En cambio, si le paso un bloque:
+
+[5] pry(main)&gt; un_metodo 0,0,&amp;@a_proc
+hello!
+=&gt; nil
+
+### o también
+
+[6] pry(main)&gt; un_metodo(0,0) do puts "hello!" end
+hello!
+=&gt; nil
+</code></pre>
+
+
+		</div>
+	</div>
+</div>
+
+<hr>
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    <li>
+                        <a href="/feed.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    
+                    <li>
+                        <a href="https://github.com/tadp-utn-frba">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                </ul>
+                <p class="copyright text-muted">Copyright &copy; TADP 2017</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/clean-blog.min.js "></script>
+
+<!-- prism.js -->
+<script src="/js/prism.js "></script>
+
+
+</body>
+
+</html>

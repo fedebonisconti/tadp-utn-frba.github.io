@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Write your site description here. It will be used as your sites meta description as well!">
+
+    <title>TADP</title>
+
+    <link rel="canonical" href="http://tadp-utn-frba.github.io/scripts/clase_8/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/clean-blog.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+
+    <!-- Prism.js CSS -->
+    <link rel="stylesheet" href="/css/prism.css">
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href='//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+
+<body>
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">TADP</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="/">Home</a>
+                </li>
+                
+                <li>
+                    <a href="/quienessomos/">Quienes Somos</a>
+                </li>
+                
+                <li>
+                    <a href="/administrativos/">Temas Administrativos</a>
+                </li>
+                
+                <li>
+                    <a href="/contenidos/">Contenidos</a>
+                </li>
+                
+                <li>
+                    <a href="/cursada/">Cursada</a>
+                </li>
+                
+                <li>
+                    <a href="/material/">Material</a>
+                </li>
+                
+                <li>
+                    <a href="/planificacion/">Planificación</a>
+                </li>
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+
+    <!-- Page Header -->
+<header class="intro-header" style="background-image: url('/img/home-bg.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="site-heading">
+                    <h1>TADP</h1>
+                    <hr class="small">
+                    <span class="subheading">Script Clase 8 TADP 1C2016</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Main Content -->
+<div class="container">
+	<div class="row">
+		<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+			<h1 id="type-arguments-y-varianza">Type Arguments y Varianza</h1>
+
+<h2 id="introduccin">Introducción</h2>
+<p>Arrancamos con un repaso básico de tipos.</p>
+
+<p><img src="https://raw.githubusercontent.com/tadp-utn-frba/tadp-utn-frba.github.io/source/scripts/granja.png" alt="" /></p>
+
+<pre><code class="language-scala">var animal: Animal = ???
+var vaca: Vaca = ???
+
+animal.come
+vaca.ordeñate
+</code></pre>
+
+<p>Tengo eso. Con que se puede inicializar?</p>
+
+<pre><code class="language-scala">var animal: Animal = new Vaca // Ok! Una vaca es un animal
+var vaca: Vaca = new Animal   // No! Un animal no es necesariamente una vaca
+
+animal.come
+vaca.ordeñate
+</code></pre>
+
+<h2 id="type-arguments">Type Arguments</h2>
+
+<p>Hasta acá el tipado cierra. Llevemoslo un paso más mostrando colecciones. Armemos un conjunto de animales y tratemos de filtrar los que están gordos.</p>
+
+<pre><code class="language-scala">var miColeccion: Set = Set(new Vaca, new Caballo, new Granero)
+
+miColeccion.filter{unElemento =&gt;
+  unElemento.estaGordo // Cómo sé si los elementos entienden esto?
+}
+</code></pre>
+
+<p>Vemos que en este ejemplo no alcanza con decir que algo es una colección: Me va a importar también el tipo de las cosas que contiene.</p>
+
+<p>De hecho, si recordamos el tipo de filter en Haskell era:</p>
+
+<pre><code class="language-haskell">filter::[a]-&gt;(a-&gt;Bool)-&gt;[a]
+</code></pre>
+
+<p>Es la misma operación la que me pide saber que tipo de elementos tiene. De acá se deduce que cualquier tipo podría requerir de un “subtipado”, dependiendo de los mensajes que queremos que entienda.</p>
+
+<p>Scala me deja definir tipos que llevan parámetros (otros tipos) para poder contemplar estos escenarios.</p>
+
+<p>Agregando esto, mi código quedaría:</p>
+
+<pre><code class="language-scala">var animales: Set[Animal] = Set(new Vaca, new Oveja, new Granero) // no me deja pasar granero porque no es un animal
+
+animales.filter{ unElemento =&gt;
+    unElemento.estaGordo
+}
+</code></pre>
+
+<p>El típo del mensaje filter va a ser muy parecido al de Haskell:</p>
+
+<pre><code class="language-haskell">#Set[A] &gt;&gt; filter(criterio: A=&gt;Bool):Set[A]
+</code></pre>
+
+<h2 id="ejercicio---parte-1">Ejercicio - Parte 1</h2>
+<p>Tomemos el modelo presentado y pensemos cómo hacer para agregar:</p>
+
+<ul>
+  <li><strong>Corral</strong>: Un corral es un lugar donde se acomodan varios animales de la misma especie.</li>
+  <li><strong>Pastores</strong>: Un pastor puede, al recibir la orden, llevar a pastar a un conjunto de animales.</li>
+  <li><strong>Lecheros</strong>: Los lecheros, cuando se les pide, ordeñan a todas las vacas de un corral.</li>
+</ul>
+
+<p>Si programamos todo bien, el siguiente programa debería andar:</p>
+
+<pre><code class="language-scala">val corralito = ???
+val lechero = ???
+val pastor = ???
+
+pastor.pastorear(corralito.animales)
+lechero.ordeñar(corralito)
+</code></pre>
+
+<p>Una primer implementación posible podría ser la siguiente:</p>
+
+<pre><code class="language-scala">class Lechero {
+  def ordeñar(corral: Corral) = corral.animales.foreach(_.ordeñate)
+}
+	
+class Pastor {
+  def pastorear(animales: Set[Animal]) = animales.foreach(_.come)
+}
+
+class Corral(val animales: Set[Animal])
+
+val corralito = new Corral(Set(new Vaca, new Vaca, new Vaca))
+val lechero = new Lechero
+val pastor = new Pastor
+
+pastor.pastorear(corralito.animales) // Todo en orden!
+lechero.ordeñar(corralito)           // Nop. Animal no entiende ordeñate
+</code></pre>
+
+<p>Ufa… El pastor funciona, pero el lechero tiene un problema de tipos. Nada le asegura que los animales que hay en el corral sean vacas, así que no se anima a ordeñar. ¿Cómo se puede hacer para que esto tipe?</p>
+
+<p>Después de laburarlo un poco y meterle type arguments podemos llegar a algo así:</p>
+
+<pre><code class="language-scala">class Lechero {
+  def ordeñar(corral: Corral[Vaca]) = corral.animales.foreach(_.ordeñate)
+}
+	
+class Pastor {
+  def pastorear(animales: Set[Animal]) = animales.foreach(_.come)
+}
+
+class Corral[T](val animales: Set[T])
+
+val corralito = new Corral(Set(new Vaca, new Vaca, new Vaca))
+val lechero = new Lechero
+val pastor = new Pastor
+
+pastor.pastorear(corralito.animales) // Ups… Esto se rompio??? PORQUÉ???
+lechero.ordeñar(corralito)           // Ahora sí! Esto anda!
+</code></pre>
+
+<p>Ok, el type argument en el Corral permite que el lechero sepa qué bicho está ordeñando! Incluso podemos hacer que el corral SOLO acepte animales haciendo:</p>
+
+<pre><code class="language-scala">class Corral[T &lt;: Animal](val animales: Set[T])
+</code></pre>
+
+<p>Pero porqué ya no anda el pastor? Cómo que un Set de vacas no es un Set de animales???</p>
+
+<h2 id="varianza">Varianza</h2>
+<p>Para entender el problema, simplifiquemos la situación y pensemos en los tipos…</p>
+
+<pre><code class="language-scala">var vacas: Set[Vaca] = ???
+var animales: Set[Animal] = ???
+
+animales.foreach{ animal =&gt; animal.come }
+vacas.foreach{ vaca =&gt; vaca.ordeñate }
+</code></pre>
+
+<p>Entonces, vale inicializarlo con esto?</p>
+
+<pre><code class="language-scala">var vacas: Set[Vaca] = new Set[Vaca]()
+var animales: Set[Animal] = new Set[Vaca]()
+
+animales.foreach{ animal =&gt; animal.come }
+vacas.foreach{ vaca =&gt; vaca.ordeñate }
+</code></pre>
+
+<p>En principio podría parecer que sí, pero vamos a ver que no es tan simple…</p>
+
+<p>Qué pasa si cambio el código de esta forma:</p>
+
+<pre><code class="language-scala">var vacas: Set[Vaca] = new Set[Vaca]()
+var animales: Set[Animal] = vacas
+
+animales.add(new Caballo) // Opa! Un caballo es un animal, así que esto vale
+vacas.foreach{ vaca =&gt; vaca.ordeñate } //Eh… No.
+</code></pre>
+
+<p>Entonces la respuesta es NO. Un Set[Vaca] no es un Set[Animales].</p>
+
+<p>La forma en la que varía el subtipado de un tipo compuesto en relación a sus parámetros de tipo se denomina <strong>Varianza</strong>.</p>
+
+<p>En el caso de Set[T], el tipo no acepta nada que no sea el T exacto declarado. Esta situación se denomina <strong>Invarianza</strong>.</p>
+
+<hr />
+
+<p>Veamos un ejemplo de algo parecido:</p>
+
+<pre><code class="language-scala">var f : Vaca =&gt; Vaca
+
+def g(vaca: Vaca): Vaca = … // Recibe una Vaca y devuelve una Vaca
+def h(vaca: Vaca): Animal = … // Devuelve un Animal
+def i(vaca: Vaca): VacaLoca = … // Devuelve una VacaLoca
+def j(vacaLoca: VacaLoca): Vaca = … // Recibe una VacaLoca
+def k(animal: Animal): Vaca = … // Recibe un Animal
+
+f = ???
+
+f(new Vaca).ordeñate
+</code></pre>
+
+<p>Cuales de las funciones definidas podrían guardarse en f ?</p>
+
+<pre><code class="language-scala">f = g  // Ok. Recibo una vaca y devuelvo una vaca. No problem.
+f = h  // No! Si h devuelve un animal no puedo garantizar que entienda muji!
+f = i  // Esto vale. La VacaLoca es una vaca y la puedo usar tal.
+f = j  // No! j espera una VacaLoca, no puedo decir que espera sólo una vaca.
+       // Si le paso una vaca a f y adentro le manda reite() se rompería!
+f = k  // Si! k sólo pide que su parámetro sea un Animal y le habla como tal.
+       // Entonces puedo pasarle una Vaca, que es un Animal.
+</code></pre>
+
+<p>En el caso de las funciones, el parámetro de tipo asociado al retorno varía en el mismo sentido que la jerarquía (o sea, admite casos más ESPECIFICOS del tipo que tiene declarado en el parámetro). A esto le decimos ser <strong>Covariante</strong>.</p>
+
+<p>Por otro lado, los tipos de sus parámetros varían en el sentido opuesto (admite casos más GENÉRICOS). Son <strong>Contravariante</strong>.</p>
+
+<p>En Scala eso se hace con una anotación en el tipo:</p>
+
+<pre><code class="language-scala">class Function1[-P,+R]{ // Clase de las funciones de un parámetro.
+                        // El - adelante de P indica que es CONTRAVARIANTE.
+                        // El + adelante de R indica que es COVARIANTE.
+…
+}
+</code></pre>
+
+<p>También se puede decir que un parámetro sea covariante o contravariante a partir de cierto punto de la jerarquía de tipos.</p>
+
+<pre><code class="language-scala">class Foo[+T &lt;: Vaca, -R &gt;: Animal]{
+    // T es COVARIANTE para los subtipos de Vaca.
+    // Puedo pasarle una Vaca o una Vaca loca, pero no un Animal.
+    // R es CONTRAVARIANTE para los supertipos de Animal.
+    // Puedo pasarle, por ejemplo, un Object.
+…
+}
+</code></pre>
+
+<hr />
+
+<h2 id="ejercicio---parte-2">Ejercicio - Parte 2</h2>
+<p>Volvamos a pensar el problema que teníamos con las herramientas nuevas que aprendimos.</p>
+
+<p>El problema del pastor era que él sabía trabajar con una colección de Animales, pero el corral tenía una colección de Vacas. Ahora entendemos el hay un problema con la varianza.</p>
+
+<p>Sin embargo, para la mayoría de los casos pareciera que una colección de vacas podría ser tratada como una colección de animales… Sería copado que las colecciones fueran COVARIANTES, no? Así el pastor podría trabajar sin problemas con las vacas del corral.</p>
+
+<p>Por supuesto, como señalamos antes, el problema de las colecciones pasa por los mensajes que trata de exponer. Si fuera covariante corremos el riesgo de que alguien agregue un objeto que rompa su contrato. Uhm… Y si trabajaramos con colecciones que no pueden romperse? Bueno, entonces no habría problemas. Pero cómo creo una colección que no se pueda romper? Lo que hay que hacer es renunciar a todos los mensajes problemáticos!</p>
+
+<p>Resulta que si le quito los métodos que reciben por parámetro el tipo paramétrico, la colección podría definirse como covariante. (En realidad es más complejo que eso y depende de en DONDE se está referenciando al tipo paramétrico, pero bleh… Si quieren el detalle lean.)</p>
+
+<p>La clase List es una colección que está implementada para ser <strong>Covariante</strong>. Eso significa que <strong>List[Vaca] ES List[Animal]</strong>.</p>
+
+<p>List no tiene add(), hay que usarla como las listas de Haskell, construyendo otra. De hecho, no tiene ningún efecto de lado: Es <strong>Inmutable</strong>.</p>
+
+<p>Entonces el código podría quedar así:</p>
+
+<pre><code class="language-scala">class Lechero {
+  def ordeñar(corral: Corral[Vaca]) = corral.animales.foreach(_.ordeñate)
+}
+	
+class Pastor {
+  def pastorear(animales: List[Animal]) = animales.foreach(_.come)
+}
+
+class Corral[T &lt;: Animal](val animales: List[T])
+
+val corralito = new Corral(List(new Vaca, new Vaca, new Vaca))
+val lechero = new Lechero
+val pastor = new Pastor
+
+pastor.pastorear(corralito.animales) // Ahora sí! Esto anda!
+lechero.ordeñar(corralito)           // Esto también! Yupi!
+</code></pre>
+
+<p>Ojo! Que la lista sea inmutable no significa que el corral tenga que serlo. De hecho, alcanzaría con cambiar el val por un var.</p>
+
+<p>Elegir en donde tener efecto colateral y en donde no es una decisión de diseño REEEE importante.</p>
+
+
+		</div>
+	</div>
+</div>
+
+<hr>
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    <li>
+                        <a href="/feed.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    
+                    <li>
+                        <a href="https://github.com/tadp-utn-frba">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                </ul>
+                <p class="copyright text-muted">Copyright &copy; TADP 2017</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/clean-blog.min.js "></script>
+
+<!-- prism.js -->
+<script src="/js/prism.js "></script>
+
+
+</body>
+
+</html>

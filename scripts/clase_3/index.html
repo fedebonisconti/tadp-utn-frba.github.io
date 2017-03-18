@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Write your site description here. It will be used as your sites meta description as well!">
+
+    <title>TADP</title>
+
+    <link rel="canonical" href="http://tadp-utn-frba.github.io/scripts/clase_3/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/clean-blog.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+
+    <!-- Prism.js CSS -->
+    <link rel="stylesheet" href="/css/prism.css">
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href='//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+
+<body>
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">TADP</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="/">Home</a>
+                </li>
+                
+                <li>
+                    <a href="/quienessomos/">Quienes Somos</a>
+                </li>
+                
+                <li>
+                    <a href="/administrativos/">Temas Administrativos</a>
+                </li>
+                
+                <li>
+                    <a href="/contenidos/">Contenidos</a>
+                </li>
+                
+                <li>
+                    <a href="/cursada/">Cursada</a>
+                </li>
+                
+                <li>
+                    <a href="/material/">Material</a>
+                </li>
+                
+                <li>
+                    <a href="/planificacion/">Planificación</a>
+                </li>
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+
+    <!-- Page Header -->
+<header class="intro-header" style="background-image: url('/img/home-bg.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="site-heading">
+                    <h1>TADP</h1>
+                    <hr class="small">
+                    <span class="subheading">Script Clase 3 TADP 1C2016</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Main Content -->
+<div class="container">
+	<div class="row">
+		<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+			<h1 id="clase-3-tadp-2c2016">Clase 3 TADP 2C2016</h1>
+
+<h2 id="metaprogramacion">METAPROGRAMACION</h2>
+<p>Es el proceso o la práctica por la cual escribimos programas que generan, manipulan o utilizan otros programas.</p>
+
+<h6 id="ejemplos">Ejemplos</h6>
+<ul>
+  <li>Un compilador se puede pensar como un programa que genera otro programa.</li>
+  <li>Un formateador de código es un programa que manipula otro programa.</li>
+  <li>Una herramienta como javadoc utiliza nuestro programa para generar su documentación.</li>
+</ul>
+
+<h6 id="para-qu-se-usa-la-metaprogramacin">Para qué se usa la metaprogramación?</h6>
+<p>En general la metaprogramación se utiliza más fuertemente en el desarrollo de frameworks y herramientas.</p>
+
+<p>Dado que los frameworks van a resolver cierta problemática de las aplicaciones, no van a estar diseñados para ninguna en particular. Es decir, la idea de framework es que se va a poder aplicar y utilizar en diferentes dominios desconocidos para el creador del framework.</p>
+
+<p>Ejemplos:</p>
+
+<ul>
+  <li>ORM’s (como hibernate): Que van a encargarse de persistir las instancias de nuestras clases sin siquiera conocerlas de antemano.</li>
+  <li>Frameworks de UI: Que deberán saber mostras / bindear cualquier objeto.</li>
+  <li>Frameworks de Testing (como JUnit): suelen usar metaprogramación para analizar la clase de Test y encontrar los tests que se deben correr.</li>
+  <li>Javadoc: Es una herramienta como el compilador de java, que lee el código fuente y genera documentación.</li>
+  <li>Code Coverage: Herramientas que miden cuánto de nuestro código es realmente ejecutado al correr los tests, y cuales lineas no.</li>
+  <li>Analizadores de código: Que evalúan nuestro código y genera métricas o miden violaciones a reglas definidas. Como el estilo de código, complejidad ciclomática, etc.</li>
+</ul>
+
+<h2 id="reflection">Reflection</h2>
+<p>Es un caso particular de metaprogramación, donde “metaprogramamos” en el mismo lenguaje en que están escritos (o vamos a escribir) los programas. Es decir, todo desde el mismo lenguaje.</p>
+
+<h3 id="tipos-de-reflection">Tipos de reflection</h3>
+<p>Para esto, generalmente, es necesario contar con facilidades o herramientas específicas, digamos “soporte” del lenguaje. Entonces reflection, además, abarca los siguientes items que vamos a mencionar en esta lista:</p>
+
+<ul>
+  <li><strong>Introspection</strong>:Se refiere a la capacidad de un sistema, de analizarse a sí mismo. Algo así como la introspección humana, pero en términos de programa. Para eso, el lenguaje debe proveer ciertas herramientas, que le permitan al mismo programa, “ver” o “reflejar” cada uno de sus componentes.</li>
+  <li><strong>Self-Modification</strong>:Es la capacidad de un programa de modificarse a sí mismo. Nuevamente esto requiere cierto soporte del lenguaje. Y las limitaciones van a depender de este soporte.</li>
+  <li><strong>Intercession</strong>:Es la capacidad de modificar la semántica del modelo que estamos manipulando,desde el mismo lenguaje.</li>
+</ul>
+
+<h3 id="modelos-y-metamodelos">Modelos y metamodelos</h3>
+<p>Así como todo programa construye un modelo para describir su dominio, los lenguajes pueden hacer lo mismo para describir sus abstracciones. El domino de un metaprograma son los programas.</p>
+
+<p>El programa describe las características de los elementos del dominio utilizando clases, métodos, atributos entre otros. Entonces, el modelo puede contener por ejemplo una clase Guerrero, que modela a los guerreros en el domino.</p>
+
+<p>Un metaprograma usará el metamodelo que describe al programa base. Así como en el dominio hay guerreros, los elementos del “metadominio” (= programa base) serán los construcciones del lenguaje, por ejemplo, clases, atributos, métodos.</p>
+
+<h1 id="practica">Practica</h1>
+<p>Vamos a usar el código de la clase anterior como ejemplo https://github.com/uqbar-paco/tadp-ruby-age-of-empires</p>
+
+<p>Podemos comenzar con un poco de introspection y preguntarle a un objeto desde su clase hasta que metodos tiene.</p>
+
+<pre><code class="language-ruby">atila = Guerrero.new
+atila.class  #=&gt; Guerrero
+atila.class.superclass  #=&gt; Object
+
+atila.methods  #=&gt; [:potencial_defensivo, :sufri_danio, :descansar, :energia, :energia=,...] 
+Guerrero.instance_methods #=&gt; Idem a atila.methods
+Guerrero.instance_methods(false) #=&gt; [:descansar_atacante, :descansar_defensor,...] (solo los de la clase guerrero)
+</code></pre>
+
+<p>Tambien podemos empezar a interactuar con los objetos de otra manera, como mandarle mensajes de otra manera.</p>
+
+<pre><code class="language-ruby">atila.send(:potencial_ofensivo)  #=&gt; 20
+atila.send(:descansar)  #=&gt; 110
+
+# con send no existen los metodos privados, la seguridad es una sensacion
+class A
+    private
+    def metodo_privado
+        'cosa privada, no te metas'
+    end    
+end
+objeto = A.new
+objeto.metodo_privado #=&gt; NoMethodError: private method `metodo_privado' called for #&lt;A:direccion en memoria del objeto&gt;
+objeto.send(:metodo_privado)  #=&gt; "cosa privada, no te metas"
+</code></pre>
+
+<p>Tambien podemos obtener un metodo e invocarlo</p>
+
+<pre><code class="language-ruby">metodo = atila.method(:potencial_ofensivo)  #=&gt; #&lt;Method: Guerrero(Atacante)#potencial_ofensivo&gt;
+metodo.call  #=&gt; 20
+</code></pre>
+
+<p>Algo interesante que podemos hacer es pedirle un metodo de instancia a una clase. A este metodo se lo llama UnBound method, ya que no esta asociado a ninguna instancia de esa clase. Podemos asociarlo a un objeto siempre y cuando este dentro de la jerarquia de clases.</p>
+
+<pre><code class="language-ruby">class Padre
+    def correr
+        'correr como padre'
+    end
+end
+
+class Hijo &lt; Padre
+    def correr
+        'correr como hijo'
+    end
+end
+metodo = Padre.instance_method(:correr)  #=&gt;#&lt;UnboundMethod: Padre#correr&gt;
+metodo.bind(Hijo.new).call  #=&gt; 'correr como padre'
+</code></pre>
+
+<p>Como vemos los Unbound methods se escapan al metodo lookup.
+Tambien podemos pregunarle a los metodos cosas.</p>
+
+<pre><code class="language-ruby">metodo = atila.method(:atacar) #=&gt; #&lt;Method: Guerrero(Atacante)#atacar&gt;
+metodo.arity  #=&gt; 1
+metodo.parameters #=&gt; [[:req, :un_defensor]]
+metodo.owner  #=&gt; Atacante (donde esta definido)
+</code></pre>
+
+<p>Asi como ya estuvimos jugando con las clases, objetos y metodos, tambien podemos jugar con las variables.</p>
+
+<pre><code class="language-ruby">atila.instance_variables #=&gt; [:@potencial_ofensivo, :@energia, :@potencial_defensivo]
+atila.instance_variable_get(:@energia)  #=&gt; 100
+atila.instance_variable_set(:@energia, 50) #=&gt; 50
+atila.instance_variable_get(:@energia)  #=&gt; 50
+</code></pre>
+
+<h3 id="self-modification">Self-Modification</h3>
+<p>Open classes</p>
+
+<p>Nos permite definir métodos y atributos en una clase ya existente.
+Es una forma de self modification con azucar sintáctica para no tener que hacerlo mediante mensajes.</p>
+
+<pre><code class="language-ruby">class String
+  def importante
+    self + '!'
+  end
+end
+'aprobe'.importante  #=&gt; "aprobe!"
+
+#Cambiar métodos
+class Fixnum
+  def +(x)
+    123
+  end
+end
+2+2  #=&gt; 123
+</code></pre>
+
+<p>Otra manera de abrir las clases y definir metodos es usando en la clase el define_method pero este es privado y como ya vimos podemos pasarlo por arriba invocando el send.</p>
+
+<pre><code class="language-ruby"> 
+Guerrero.send(:define_method, :saluda) {
+  'Hola'
+}
+Guerrero.new.saluda  #=&gt; "Hola"
+</code></pre>
+
+<p>Aca podemos hacer referencia a dos practicas de programacion
+Duck Typing y Monkey patching</p>
+
+<h4 id="duck-typing">Duck Typing</h4>
+<p>Debido a que ruby es un lenguaje dinamicamente tipado, hacemos referencia a un tipo de dato por el comportamiento que tiene.
+&gt;…if it walks like a duck and talks like a duck, it’s a duck, right? </p>
+
+<p>Si tenemos un objeto que cuando hace ruido hace “cuak” y camina como un pato, probablemente lo sea, y deberia poder continuar usando este objeto como si fuera uno.</p>
+
+<h4 id="monkey-patching">Monkey Patching</h4>
+<blockquote>
+  <p>…if it walks like a duck and talks like a duck, it’s a duck, right? So if this duck is not giving you the noise that you want, you’ve got to just punch that duck until it returns what you expect.</p>
+</blockquote>
+
+<p>Hace referencia a la posibilidad de practicamente modificar un tipo a gusto y piacere para que responda a nuestras necesidades y realizar otro tipo de operaciones como si fuera otro.</p>
+
+<p>Tambien podemos empezar a hacer algunas cosas mas locas, como agregarle comportamiento a un unico objeto</p>
+
+<pre><code class="language-ruby">atila.define_singleton_method(:saluda) {
+  'Hola soy Atila'
+}
+atila.saluda  #=&gt; "Hola soy Atila"
+Guerrero.new.saludo # NoMethodError
+</code></pre>
+
+<h2 id="metamodelo">METAMODELO</h2>
+
+<p>Empezamos a dibujar el modelo de clases.
+Vamos a jugar un poco más con el metamodelo, ya sabemos que existe el mensaje class que lo entienden todos los objetos, si queremos saber la superclase de una clase tenemos el mensaje superclass. Podríamos pensar en base a eso quiénes le proveen comportamiento a cada uno de nuestros objetos.</p>
+
+<pre><code class="language-ruby">zorro = Espadachin.new(Espada.new(123))
+</code></pre>
+
+<p>Tenemos al zorro que es instancia de Espadachin, que hereda de Guerrero. Si le pedimos los métodos al zorro vemos que incluye a los instance_methods de Espadachin y de Guerrero, así como todos los que se definen para las instancias de Object.</p>
+
+<h3 id="autoclases-eigenclass">Autoclases-EigenClass</h3>
+<p>Pero nosotros no le agregamos comportamiento sólo a las instancias, también teníamos un par de métodos de clase que habíamos definido para Peloton, como por ejemplo cobarde.</p>
+
+<pre><code class="language-ruby">Peloton.cobarde([])
+</code></pre>
+
+<p>Quién provee ese comportamiento? La clase de Peloton es Class, y este comportamiento no se agregó para todas las clases así que no puede estar definido dentro de Class.</p>
+
+<pre><code class="language-ruby">Peloton.methods.include? :cobarde  #=&gt; true
+Peloton.class.instance_methods.include? :new  #=&gt; true
+Peloton.class.instance_methods.include? :cobarde  #=&gt; false
+</code></pre>
+
+<p>Esto sólo lo entiende la clase Peloton, o sea que está definido para un sólo objeto. El objeto que le provee el comportamiento a un sólo objeto es la autoclase. En Ruby podemos obtener la autoclase de un objeto mandándole singleton_class.</p>
+
+<pre><code class="language-ruby">Peloton.singleton_class.instance_methods(false)  #=&gt; [:cobarde]
+</code></pre>
+
+<p>Todos los objetos tienen una singleton class, con lo cual podemos definirle comportamiento a atila y que sea el único guerrero con ese comportamiento.
+Incluir un mixin a una instancia(con include en la singleton class o extend en la intancia):</p>
+
+<pre><code class="language-ruby">module W
+  def m
+    123
+  end
+end
+a = Guerrero.new
+a.singleton_class.include W
+a.m  #=&gt; 123
+b = Guerrero.new
+b.extend W
+b.m  #=&gt;123
+</code></pre>
+
+<p>Agregamos el test en el que atila cuando se lastima descansa y se come un pollo incorporando esta línea para que entienda comerse_un_pollo</p>
+
+<pre><code class="language-ruby">atila = Guerrero.new
+atila.singleton_class.send(:define_method, :comerse_un_pollo, proc { @energia += 20 })
+atila.energia
+atila.comerse_un_pollo
+atila.energia
+Guerrero.new.comerse_un_pollo  # NoMethodError
+</code></pre>
+
+<p>También vemos que se puede tener properties para un objeto solo</p>
+
+<pre><code class="language-ruby">atila.singleton_class.send(:attr_accessor, :edad)
+atila.edad = 5
+atila.edad  #=&gt; 5
+Guerrero.new.edad  #=&gt; NoMethodError
+</code></pre>
+
+<p>Vemos que no aparecen los mixins que tiene la clase Guerrero si vamos preguntando las super clases. El mensaje superclass no mustra los mixins (porque no son clases), para poder ver la linearización tenemos que pedir quienes proveen comportamiento con el mensaje ancestors.</p>
+
+<pre><code class="language-ruby">Guerrero.ancestors  #=&gt; [Guerrero, Defensor, Observable, Atacante, Object, Kernel, BasicObject]
+</code></pre>
+
+<p>Nota: Las ultimas veriones de ruby incluyen a la singleton class de Guerrero, las anteriores a 2.1.0 NO incluyen a las singleton classes:</p>
+
+<pre><code class="language-ruby">Guerrero.new.singleton_class.ancestors
+[#&lt;Class:#&lt;Guerrero:0x00000001d6c8c8&gt;&gt;,
+Guerrero,
+Defensor,
+Atacante,
+Object,
+PP::ObjectMixin,
+Kernel,
+BasicObject]
+</code></pre>
+
+<p>Dibujar los ancestors de Guerrero en el pizarron.
+Dibujar la singleton class de atila.
+Agregamos un método de clase a Guerrero:</p>
+
+<pre><code class="language-ruby">class Guerrero
+  def self.gritar
+    “haaaa”
+  end
+end
+atila.gritar  #=&gt; NoMethodError
+Guerrero.gritar  #=&gt; haaaa
+</code></pre>
+
+<p>Dibujar la singleton class de Guerrero (donde definí “gritar”)</p>
+
+<pre><code class="language-ruby">Espadachin.gritar  #=&gt;haaaa
+</code></pre>
+
+<p><img src="https://raw.githubusercontent.com/tadp-utn-frba/tadp-clases/ruby-metaprogramming/Metamodelo_de_Ruby.jpg" alt="" /></p>
+
+
+		</div>
+	</div>
+</div>
+
+<hr>
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    <li>
+                        <a href="/feed.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    
+                    <li>
+                        <a href="https://github.com/tadp-utn-frba">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                </ul>
+                <p class="copyright text-muted">Copyright &copy; TADP 2017</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/clean-blog.min.js "></script>
+
+<!-- prism.js -->
+<script src="/js/prism.js "></script>
+
+
+</body>
+
+</html>

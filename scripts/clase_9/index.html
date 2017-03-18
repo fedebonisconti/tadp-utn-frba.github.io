@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Write your site description here. It will be used as your sites meta description as well!">
+
+    <title>TADP</title>
+
+    <link rel="canonical" href="http://tadp-utn-frba.github.io/scripts/clase_9/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/clean-blog.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+
+    <!-- Prism.js CSS -->
+    <link rel="stylesheet" href="/css/prism.css">
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href='//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+
+<body>
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">TADP</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="/">Home</a>
+                </li>
+                
+                <li>
+                    <a href="/quienessomos/">Quienes Somos</a>
+                </li>
+                
+                <li>
+                    <a href="/administrativos/">Temas Administrativos</a>
+                </li>
+                
+                <li>
+                    <a href="/contenidos/">Contenidos</a>
+                </li>
+                
+                <li>
+                    <a href="/cursada/">Cursada</a>
+                </li>
+                
+                <li>
+                    <a href="/material/">Material</a>
+                </li>
+                
+                <li>
+                    <a href="/planificacion/">Planificación</a>
+                </li>
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+
+    <!-- Page Header -->
+<header class="intro-header" style="background-image: url('/img/home-bg.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="site-heading">
+                    <h1>TADP</h1>
+                    <hr class="small">
+                    <span class="subheading">Script Clase 9 TADP 1C2016</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Main Content -->
+<div class="container">
+	<div class="row">
+		<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+			<h1 id="tadp---2015-c2---clase-09---pattern-matching-vs-polimorfismo-ad-hoc-inmutabilidad">TADP - 2015 C2 - Clase 09 - Pattern Matching vs Polimorfismo Ad-Hoc, Inmutabilidad</h1>
+
+<h2 id="intro">Intro</h2>
+
+<p>Empezamos contando el patrón visitor[1] del libro de Gamma. La idea es que vean como se resuelve en objetos un problema en donde la solución depende de dos tipos para poder resolverlo.</p>
+
+<p>Con esto podemos empezar a ver el problema actual (ejercicio Microprocesador), mostrando la solución en objetos basada en el patrón Visitor:  </p>
+
+<p><a href="https://github.com/tadp-utn-frba/tadp-clases/tree/scala-microprocesador/objetos-puro">repo objetos-puro</a></p>
+
+<p>Acá se puede apreciar que la solución en objetos es bastante complicada, a pesar de ser lo mejor que podemos hacer utilizando solamente polimorfismo ad-hoc. ¿cómo se puede mejorar entonces? Usando pattern matching.</p>
+
+<p>Dado que es más probable que agreguemos más operaciones (como ejecutar, simplificar, pretty printing, etc) que instrucciones, es menos problemático si en vez de usar polimorfismo, miramos explícitamente la estructura. En definitiva es lo que se hacía antes con el visitor, solamente que ahora esto se define dentro de la operación directamente.</p>
+
+<h2 id="pattern-matching">Pattern Matching</h2>
+
+<p>Entonces, ¿qué es pattern matching? En principio es una forma de ejecutar distinto comportamiento dependiendo de la forma del objeto. Pero en vez de delegar esta decisión en el objeto, lo realiza el objeto que lo usa. Como vamos a ir viendo, “dependiendo de la forma del objeto” es más que simplemente ver de qué tipo es, sino también ver que cosas tiene dentro.</p>
+
+<p>Pasamos a una nueva solución que usa Pattern Matching en vez del Visitor:</p>
+
+<p><a href="https://github.com/tadp-utn-frba/tadp-clases/tree/scala-microprocesador/funcional-mutable">repo funcional-mutable</a></p>
+
+<p>Veamos cómo queda la nueva implementación para ejecutar el programa. Esta nueva implementación también usa pattern matching sobre la lista de instrucciones para trabajarla recursivamente mediante el patrón cabeza y cola, y para los casos en los cuales la lista no es vacía, se decide cómo ejecutar la siguiente instrucción en base a su forma:</p>
+
+<pre><code class="language-scala"> class HaltException extends Exception
+
+ def ejecutar(micro: Microprocesador, programa: Instruccion*) = {
+
+        def ejecutarR(programa: List[Instruccion]): Unit =
+
+          programa match {
+
+          case Nil =&gt;
+
+          case HALT :: _ =&gt; throw new HaltException
+
+          case siguiente :: restantes =&gt;
+
+                  siguiente match {
+
+              case NOP =&gt;
+
+              case ADD =&gt; micro.guardar(micro.a + micro.b)
+
+              case MUL =&gt; micro.guardar(micro.a * micro.b)
+
+              case SWAP =&gt;
+
+                val temp = micro.a
+
+                micro.a = micro.b
+
+                micro.b = temp
+
+              case LODV(valor) =&gt; micro.a = valor
+
+              case LOD(direccion) =&gt;
+
+micro.a = micro.memoriaDeDatos(direccion)
+
+              case STR(direccion) =&gt;
+
+micro.memoriaDeDatos(direccion) = micro.a
+
+              case IFNZ(instrucciones @ _*) =&gt;
+
+                micro.pc += siguiente.bytes
+
+                if (micro.a != 0) ejecutarR(instrucciones)
+
+                else micro.pc += instrucciones.map(_.bytes).sum
+
+            }
+
+            micro.pc += siguiente.bytes
+
+            ejecutarR(restantes)
+
+        }
+
+        try ejecutarR(programa.toList)
+
+        catch {
+
+          case e: HaltException =&gt;
+
+        }
+
+  }
+</code></pre>
+
+<p>Para poder hacer esto, las instrucciones tienen que poder ser matcheadas con los patrones correspondientes. La forma más fácil de lograr esto (pero no la única) es definiendo las instrucciones como case classes/objects.</p>
+
+<p>El case es un modificador que agrega de forma transparente comportamiento extra, y como el pattern matching en Scala se basa en entender ciertos mensajes, al decir que por ejemplo IFNZ es una case class hacemos que este tipo de instrucciones incorporen la implementación por defecto de dichos mensajes, entre otras cosas simpáticas como la igualdad y el hash code, y la forma de imprimirse, que se basan en los parámetros de clase.</p>
+
+<p>Así quedan las instrucciones luego de este cambio:</p>
+
+<pre><code class="language-scala">abstract class Instruccion(val bytes: Int = 1)
+
+case object NOP extends Instruccion
+
+case object ADD extends Instruccion
+
+case object MUL extends Instruccion
+
+case object SWAP extends Instruccion
+
+case object HALT extends Instruccion
+
+case class LODV(valor: Short) extends Instruccion(2)
+
+case class LOD(direccion: Int) extends Instruccion(3)
+
+case class STR(direccion: Int) extends Instruccion(3)
+
+case class IFNZ(instrucciones: Instruccion*) extends Instruccion
+
+object END {
+
+  val bytes = 1
+
+}
+</code></pre>
+
+<p>Algo a tener en cuenta sobre los objetos sobre los cuales vamos a querer trabajar usando pattern matching, es que no deberían poder mutar aquellos valores sobre los cuales pretendemos matchear. Por ese motivo, los parámetros de clase de una case class son por defecto vals, podemos acceder al valor de forma pública pero no pueden ser modificados.</p>
+
+<p>Vemos que con este nuevo enfoque, hacer una operación para simplificar un programa es muy sencillo, y lograr esta misma funcionalidad con el enfoque del visitor hubiera sido inviable por la complejidad extra de tener que analizar varios elementos consecutivos de la lista de instrucciones a la vez, con lo cual también el recorrido de la lista deja de ser trivial.</p>
+
+<pre><code class="language-scala">def simplificar(programa: Instruccion*): Seq[Instruccion] = {
+
+    programa.toList match {
+
+      case Nil =&gt; Nil
+
+      case NOP :: restantes =&gt; simplificar(restantes: _*)
+
+      case SWAP :: SWAP :: restantes =&gt; simplificar(restantes: _*)  
+
+      case LODV(_) :: LODV(y) :: restantes =&gt;
+
+            simplificar ( LODV(y) :: restantes: _*)
+
+      case LOD(_) :: LOD(y) :: restantes =&gt;
+
+            simplificar ( LOD(y) :: restantes: _*)
+
+      case STR(_) :: STR(y) :: restantes =&gt;
+
+            simplificar ( STR(y) :: restantes: _*)
+
+      case IFNZ() :: restantes =&gt; simplificar(restantes: _*)
+
+      case IFNZ(instrucciones @ _*) :: restantes =&gt;
+
+              val r = simplificar(instrucciones: _*)
+
+              if(r.isEmpty) simplificar(restantes: _*)
+
+              else IFNZ(r: _*) :: simplificar( restantes: _*)
+
+      case siguiente :: restantes =&gt;
+
+            siguiente :: simplificar(restantes : _*)
+
+    }
+
+}
+</code></pre>
+
+<h2 id="inmutabilidad">Inmutabilidad</h2>
+
+<p>Ya en el paso anterior nos empezamos a meter con la idea de inmutabilidad porque el pattern matching se para sobre estructuras inmutables, pero nuestra solución todavía trabaja con efecto colateral sobre el microprocesador.</p>
+
+<p>¿Por qué queremos hacer el micro inmutable? En principio, un valor es más sencillo de manejar que un objeto. Al no haber mutabilidad, una operación es siempre predecible y podría simplificar el debuggeo y testeo de la solución. Además, esto nos va a permitir más adelante utilizar otros conceptos de funcional (como mónadas), pero por ahora esa parte nos la tienen que creer.</p>
+
+<p>Además de hacer el micro inmutable, hay que tener en cuenta el manejo de errores. Actualmente se está usando una excepción para manejar la instrucción HALT. Esto tiene un efecto que es modificar el stack, lo cual rompe un poco con la idea de la transparencia referencial que es un concepto fundamental para el paradigma funcional.</p>
+
+<p>Entonces debemos hacer al menos 3 cosas para acercarnos más a una solución funcionalosa:</p>
+
+<ul>
+  <li>Hacer que el micro sea inmutable e ir generando nuevas copias del micro a medida que se ejecuta</li>
+  <li>Reemplazar las excepciones por algo que represente la ejecución del programa (ejecutando, terminado, error)</li>
+  <li>Incluir toda esa información en el valor de retorno de la ejecución en vez de tener un valor de retorno de tipo Unit</li>
+</ul>
+
+<p>Para hacer el punto 1, es conveniente hacer del micro una case class, sólo por el hecho de que Scala ya nos provee un copy que es útil para no tener que ir instanciando todo de nuevo (es un chiche, pero es mucho más cómodo que hacer el new del micro y pasarle siempre TODAS las cosas).</p>
+
+<pre><code class="language-scala">case class Microprocesador(memoriaDeDatos: List[Short] =
+
+  (1 to 1024).map(i =&gt; 0:Short), a: Short = 0, b: Short = 0,
+
+  pc: Int = 0)
+
+{
+
+  def pc_+=(inc: Int) = copy(pc = pc + inc)
+
+  def guardar(valor: Int) = copy(
+
+        a = ((valor &amp; 0xFF00) &gt;&gt; 4).toShort,
+
+        b = (valor &amp; 0x00FF).toShort
+
+  )
+
+}
+</code></pre>
+
+<p>Para el punto 2 hay que tener en cuenta 2 cosas: por un lado este resultado es el que va a ir llevando el estado durante toda la ejecución, así que parte de su responsabilidad va a ser esa. Y por otro lado, ¡por esta clase nomás!, vamos a tener que manejar este retorno dentro de la ejecución para saber si seguir ejecutando o no (más pattern matching), por eso también hacemos que sean case classes.</p>
+
+<pre><code class="language-scala">trait ResultadoDeEjecucion
+
+case class Ejecutando(micro: Microprocesador) extends ResultadoDeEjecucion
+
+case class Halt(micro: Microprocesador) extends ResultadoDeEjecucion
+
+case class Error(micro: Microprocesador, descripcion: String) extends ResultadoDeEjecucion
+</code></pre>
+
+<p>Finalmente para el punto 3, así nos queda la ejecución retornando los resultados de ejecución:</p>
+
+<pre><code class="language-scala">def ejecutar(micro: Microprocesador, programa: Instruccion*): ResultadoDeEjecucion = programa.toList match {
+
+case Nil =&gt; Ejecutando(micro)
+
+case instruccionActual :: restantes =&gt;
+
+  val resultado = instruccionActual match {
+
+    case HALT =&gt; Halt(micro)
+
+    case IFNZ(instruccionesInternas @ _*) =&gt;
+
+      if (micro.a != 0)
+
+            ejecutar(micro pc_+= instruccionActual.bytes,
+
+              instruccionesInternas: _*) match {
+
+                    case Ejecutando(m) =&gt; Ejecutando(m pc_+= END.bytes)
+
+                    case otro =&gt; otro
+
+              }
+
+      else Ejecutando(micro pc_+= instruccionActual.bytes +
+
+            instruccionesInternas.map(_.bytes).sum + END.bytes)
+
+   
+
+    case DIV =&gt;
+
+      if(micro.b == 0)
+
+            Error(micro, "Division por 0.")
+
+      Ejecutando(micro.guardar(micro.a/micro.b))
+
+           
+
+    case otra =&gt;
+
+      val siguienteMicro = otra match {
+
+            case NOP =&gt; micro
+
+            case ADD =&gt; micro.guardar(micro.a + micro.b)
+
+            case MUL =&gt; micro.guardar(micro.a * micro.b)
+
+            case SWAP =&gt; micro.copy(a = micro.b, b = micro.a)
+
+            case LODV(valor) =&gt; micro.copy(a = valor)
+
+            case LOD(direccion) =&gt;
+
+                    micro.copy(a = micro.memoriaDeDatos(direccion))
+
+            case STR(direccion) =&gt;
+
+                    micro.copy(memoriaDeDatos = micro.memoriaDeDatos.updated(direccion, micro.a))
+
+      }
+
+      Ejecutando(siguienteMicro.pc_+=(otra.bytes))
+
+  }
+
+  resultado match {
+
+    case Ejecutando(micro) =&gt; ejecutar(micro, restantes: _*)
+
+    case x =&gt; x
+
+  }
+
+}
+</code></pre>
+
+<p>La clase que viene vamos a partir de esta solución que todavía no está tan copada, porque el manejo del resultado de ejecución es engorroso y más manual de lo que nos gustaría. Sólo quedémonos con la idea de que dimos un paso grande hacia la felicidad!</p>
+
+<p>El código final luego de este paso se encuentra acá:</p>
+
+<p><a href="https://github.com/tadp-utn-frba/tadp-clases/tree/scala-microprocesador/funcional-inmutable">repo funcional-inmutable</a></p>
+
+<p>[1] <a href="https://www.google.com/url?q=https://sourcemaking.com/design_patterns/visitor&amp;sa=D&amp;ust=1465054556955000&amp;usg=AFQjCNF250rlMRq7KCXAtkNT9cwuhA_cxA">SourceMaking: Visitor</a></p>
+
+
+		</div>
+	</div>
+</div>
+
+<hr>
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    <li>
+                        <a href="/feed.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    
+                    <li>
+                        <a href="https://github.com/tadp-utn-frba">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                </ul>
+                <p class="copyright text-muted">Copyright &copy; TADP 2017</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/clean-blog.min.js "></script>
+
+<!-- prism.js -->
+<script src="/js/prism.js "></script>
+
+
+</body>
+
+</html>

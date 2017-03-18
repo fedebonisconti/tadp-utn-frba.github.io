@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Write your site description here. It will be used as your sites meta description as well!">
+
+    <title>TADP</title>
+
+    <link rel="canonical" href="http://tadp-utn-frba.github.io/scripts/clase_4/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/clean-blog.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+
+    <!-- Prism.js CSS -->
+    <link rel="stylesheet" href="/css/prism.css">
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href='//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+
+<body>
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">TADP</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="/">Home</a>
+                </li>
+                
+                <li>
+                    <a href="/quienessomos/">Quienes Somos</a>
+                </li>
+                
+                <li>
+                    <a href="/administrativos/">Temas Administrativos</a>
+                </li>
+                
+                <li>
+                    <a href="/contenidos/">Contenidos</a>
+                </li>
+                
+                <li>
+                    <a href="/cursada/">Cursada</a>
+                </li>
+                
+                <li>
+                    <a href="/material/">Material</a>
+                </li>
+                
+                <li>
+                    <a href="/planificacion/">Planificación</a>
+                </li>
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+
+    <!-- Page Header -->
+<header class="intro-header" style="background-image: url('/img/home-bg.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="site-heading">
+                    <h1>TADP</h1>
+                    <hr class="small">
+                    <span class="subheading">Script Clase 4 TADP 1C2016</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Main Content -->
+<div class="container">
+	<div class="row">
+		<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+			<h1 id="clase-4-instanceeval-classeval-methodmissing">Clase 4: instance_eval, class_eval, method_missing</h1>
+
+<p>Queremos modelar un Meta Builder, el cual nos ofrece la posibilidad de armar Builders para cualquier clase que queramos, ahorrandonos el desarrollo de un builder por cada clase de nuestro dominio o modelo de negocio. </p>
+
+<p>La resolución del Meta Builder en clase está en el siguiente <a href="https://github.com/tadp-utn-frba/tadp-clases/tree/ruby-metabuilder">repo</a>.</p>
+
+<h2 id="punto-1-sintaxis-bsica-del-meta-builder">Punto 1: Sintaxis básica del Meta Builder</h2>
+
+<p>En el primer punto nos piden que modelemos y desarrollemos los métodos necesarios para setear una clase y sus propiedades, para luego armar un builder con esos datos. Empezamos con lo fundamental:</p>
+
+<pre><code class="language-ruby">class Metabuilder
+  attr_reader :klass, :properties, :validations
+
+  def initialize
+    @properties = []
+  end
+
+  def set_class(klass)
+    @klass = klass
+  end
+
+  def set_properties(*args)
+    @properties += args
+  end
+
+
+  def build
+    Builder.new @klass, @properties, @validations
+  end
+
+end
+
+class Builder
+  attr_reader :properties, :validations
+
+  def initialize(klass, properties, validations)
+    @klass = klass
+    @properties= {}
+  end
+
+  def set_property(sym, value)
+    self.properties[sym] = value
+  end
+
+  def build
+    instancia = @klass.new
+    self.properties.each do |property, value|
+      instancia.send "#{property}=".to_sym, value
+    end
+    instancia
+  end
+end
+</code></pre>
+
+<p>Vemos que es necesario definir las responsabilidades del Meta Builder como del Builder; el primero se encarga de definir la clase a instanciar, y sus propiedades sobre las cuales podemos trabajar en el Builder; el segundo se encarga de proveernos una interfaz para modificar los valores en dichas variables, y poder brindarnos una instancia con las propiedades ya seteadas.</p>
+
+<h3 id="method-missing">Method Missing</h3>
+
+<p>Cuando le enviamos un mensaje a un objeto, se ejecuta el primero que se encuentra durante el method lookup. Si no encontrase ninguno, arroja una excepción del tipo NoMethodError, salvo que ese objeto tenga definido un método para el mensaje ‘method_missing’. 
+Este mensaje recibe por parámetro el nombre del mensaje que no se encontró, junto con los argumentos con los cuales fue invocado. Esto nos permite manejar esta clase de situaciones en runtime, siendo una herramienta muy poderosa para hacer, entre otras cosas, que un objeto entienda cualquier mensaje.</p>
+
+<h2 id="punto-2-sintaxis-especfica">Punto 2: Sintaxis específica</h2>
+
+<p>En el 2do punto vemos que el test nos dicta la interfaz que debemos cumplir, como extensión al modelo anterior (es decir, que debe seguir soportándolo el uso del set_property)
+Como es observable, la clase Builder no entiende los mensajes ‘raza=’, ‘edad=’. Y es correcto, ya que la idea del Meta Builder debe ser agnóstico del dominio o modelo de negocio que manejemos. ¿Cómo solucionamos este problema?:</p>
+
+<p>Utilizando el method_missing. Nosotros querríamos que, cuando se envíe el mensaje ‘raza=’ el Builder responda de manera tal que termine asignando el valor a dicha propiedad. Esto lo resolvemos así:</p>
+
+<pre><code class="language-ruby">class Builder
+
+def method_missing(symbol, *args)
+    property_symbol = symbol.to_s[0..-2].to_sym
+    super unless self.properties.has_key? property_symbol
+    self.set_property property_symbol, args[0]
+ end
+
+end
+</code></pre>
+
+<p>Es necesario modificar el nombre del método quitàndole el ‘=’ para poder buscarlo en el mapa que contiene todas las propiedades. Luego, verificamos que exista como propiedad, sino hacemos que continùe el flujo de ejecución del method_missing en toda la jerarquía, para mantener la consistencia de nuestro programa (sino podría pasar que tengamos la posibilidad de setear a un builder de perros que tenga una espada, por ejemplo). Finalmente, seteamos dicha propiedad con el argumento que, en este caso, es el primero. </p>
+
+<p>Warning:</p>
+
+<p>Esta posibilidad que nos da Ruby de re-definir el method_missing nos da un gran abanico de posibilidades a la hora de que un objeto entienda ciertos mensajes. Es decir, podríamos hacer que una Persona responda al mensaje ‘ladrar’, por ejemplo. Pero eso no significa que las Personas tengan definido un método ‘ladrar’. Si preguntamos a un builder
+de perros si entiende el mensaje ‘raza=’, nos dirá que no. Y esto termina por hacer que nuestro programa no sea consistente, dado que si le enviamos ese mensaje, el builder responde seteando un valor a dicha propiedad. 
+Para mantener la coherencia de nuestro framework, podemos redefinir el mensaje respond_to_missing? de manera tal que nos indique si responde o no a un mensaje que no está explícitamente definido. Este mensaje es invocado por el respond_to? si no encuentra el selector pasado por parámetro en los métodos definidos por el objeto receptor.</p>
+
+<pre><code class="language-ruby">class Builder
+    def respond_to_missing?(symbol, include_all) 
+        property_symbol = symbol.to_s[0..-2].to_sym
+        self.properties.has_key? property_symbol 
+    end
+end
+</code></pre>
+
+<p>Aplicando esta definición, podemos hacer esta consulta:</p>
+
+<pre><code class="language-ruby">metabuilder = Metabuilder.new
+metabuilder.set_class(Perro)
+metabuilder.set_properties(:raza, :edad)
+
+builder_de_perros = metabuilder.build
+builder_de_perros.respond_to? :raza=
+# true
+</code></pre>
+
+<p>En conclusión, se suele decir que siempre que se redefina el method_missing es necesario definir el respond_to_missing?.</p>
+
+<h2 id="punto-3-validaciones">Punto 3: Validaciones</h2>
+
+<p>Ahora se requiere que, antes de poder buildear una instancia, se corran ciertas validaciones que nos aseguren que dicha instancia es válida. Para ello, debemos poder setearle al metabuilder una serie de validaciones. Definimos el mensaje validate:</p>
+
+<pre><code class="language-ruby">class Metabuilder
+    def validate(&amp;block)
+        @validations &lt;&lt; block
+    end
+    
+    def build
+        Builder.new @klass, @properties, @validations
+    end
+end
+</code></pre>
+
+<p>Observación: como vamos a recibir un bloque (que en Ruby no son objetos), y sólo podemos guardar objetos en las colecciones, lo necesitamos transformar en un Proc. Ruby nos da una forma sintáctica bastante simple para que, al recibir un bloque, se transforme implícitamente a un Proc, esto es, utilizando el ampersand (&amp;).</p>
+
+<p>Ahora necesitamos definir que toda instancia de Builder ejecute dichas validaciones antes de retornar la instancia…
+Lo que hay que tener en cuenta es que, dentro de las validaciones, se invocan mensajes que no entiende el Builder, porque son getters (:raza, :edad, :duenio). Estos mensajes sólo los entienden las instancias de Perro, o bien, de la target class que tenga el Builder. Pero cambiar el contexto de un bloque no es trivial… sin embargo, Ruby nos da una herramienta para hacer un work-around.</p>
+
+<p>Instance_eval</p>
+
+<p>Este mensaje recibe por parámetro un bloque, y lo ejecuta en el contexto de instancia del objeto receptor de dicho mensaje. Es decir, que podemos hacer algo así:</p>
+
+<pre><code class="language-ruby">class Builder
+    def build 
+        instancia = @klass.new 
+        self.properties.each do |property, value| 
+        instancia.send "#{property}=".to_sym, value 
+      end
+
+raise ValidationError unless @validations.all? do |validation|
+instancia.instance_eval &amp;validation 
+end 
+instancia
+	end
+end
+</code></pre>
+
+<p>De esta manera, las validaciones se ejecutan en el contexto de instancia de la instancia de la clase que seteamos. (es decir, de la instancia de Perro).</p>
+
+<h2 id="punto-4-buildear-instancias-sobre-una-clase-no-existente">Punto 4: Buildear instancias sobre una clase no existente</h2>
+
+<p>Como último requerimiento de la clase, nos piden extender la interfaz de manera tal que un meta builder puede crear un builder para una clase que no existe. Es decir, que tendría que crear la clase y luego pasársela al builder cuando se le envíe el mensaje ‘build’ al meta builder.
+También debe ser posible recibir un bloque en el que definamos métodos de instancia para la clase en cuestión.
+Definimos un mensaje ‘create_class’ que recibe el símbolo, representante de la clase, y un bloque que define su estado.</p>
+
+<pre><code class="language-ruby">class Metabuilder
+def create_class(sym, &amp;block)
+@klass = Class.new
+Object.const_set sym, @klass 
+@klass.instance_eval &amp;block 
+end
+end
+</code></pre>
+
+<h4 id="qu-es-objectconstset-sym-klass">¿Qué es Object.const_set sym, @klass?</h4>
+
+<ul>
+  <li>Object.const_set: recibe un simbolo y un objeto, y crea una constante con el simbolo como nombre y el objeto como referencia.</li>
+  <li>sym: en este caso, el nombre de la clase (:Perro, :Gato, etc.)</li>
+  <li>@klass: la instancia de Class que representa a nuestra clase.</li>
+</ul>
+
+<p>En esta sentencia estamos creando una constante en el contexto global de manera tal que pueda ser invocada desde cualquier parte de nuestro programa. Si no ejecutamos esto, perderíamos la referencia global a dicha clase.</p>
+
+<p>Similar al problema anterior, nosotros querríamos que el bloque que define el estado de la clase se ejecute en el contexto de instancia de la clase (es decir, como instancia de Class), ya que si lo llamáramos con ‘call’ dentro del método ‘create_class’ se ejecutaría en el contexto de instancia de un meta builder.</p>
+
+
+		</div>
+	</div>
+</div>
+
+<hr>
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    <li>
+                        <a href="/feed.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    
+                    <li>
+                        <a href="https://github.com/tadp-utn-frba">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                </ul>
+                <p class="copyright text-muted">Copyright &copy; TADP 2017</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/clean-blog.min.js "></script>
+
+<!-- prism.js -->
+<script src="/js/prism.js "></script>
+
+
+</body>
+
+</html>

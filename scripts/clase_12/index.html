@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Write your site description here. It will be used as your sites meta description as well!">
+
+    <title>TADP</title>
+
+    <link rel="canonical" href="http://tadp-utn-frba.github.io/scripts/clase_12/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/clean-blog.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+
+    <!-- Prism.js CSS -->
+    <link rel="stylesheet" href="/css/prism.css">
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href='//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+
+<body>
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">TADP</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="/">Home</a>
+                </li>
+                
+                <li>
+                    <a href="/quienessomos/">Quienes Somos</a>
+                </li>
+                
+                <li>
+                    <a href="/administrativos/">Temas Administrativos</a>
+                </li>
+                
+                <li>
+                    <a href="/contenidos/">Contenidos</a>
+                </li>
+                
+                <li>
+                    <a href="/cursada/">Cursada</a>
+                </li>
+                
+                <li>
+                    <a href="/material/">Material</a>
+                </li>
+                
+                <li>
+                    <a href="/planificacion/">Planificación</a>
+                </li>
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+
+    <!-- Page Header -->
+<header class="intro-header" style="background-image: url('/img/home-bg.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="site-heading">
+                    <h1>TADP</h1>
+                    <hr class="small">
+                    <span class="subheading">Script Clase 12 TADP 1C2016</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Main Content -->
+<div class="container">
+	<div class="row">
+		<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+			<h1 id="objetos--funcional">Objetos + Funcional</h1>
+<p>Vamos a construir una solucion funcional de un dominio y luego vamos a ir introduciendo y combinando conceptos de OOP.</p>
+
+<h2 id="dominio">Dominio</h2>
+<p>Vamos a construir un programa para analizar las pociones que se enseñan a los alumnos en el colegio Hogwarts de Magia y Hechicería, y los efectos que pueden hacer sobre las personas.</p>
+
+<h3 id="personas-y-niveles">Personas y Niveles</h3>
+<p>Una persona es una tupla de nombre y niveles.
+Los niveles definen el estado de cada caracteristica de una persona: suerte, convencimiento, fuerza.</p>
+
+<pre><code class="language-scala">type Niveles = (Int, Int, Int)
+type Persona = (String, Niveles)
+
+val personas = List(
+  ("Harry", (11, 5, 4)),
+  ("Ron", (6, 4, 6)),
+  ("Hermione", (8, 12, 2)),
+  ("Draco", (7, 9, 6))
+)
+</code></pre>
+
+<h3 id="efectos">Efectos</h3>
+<p>Los efectos son funciones que reciben niveles y devuelven el nuevo estado de los niveles.</p>
+
+<pre><code class="language-scala">type Efecto = Niveles =&gt; Niveles
+</code></pre>
+
+<h4 id="aplicacin-parcial-y-currificacin">Aplicación Parcial y Currificación</h4>
+
+<p>Definamos un efecto que duplique todos los niveles:</p>
+
+<pre><code class="language-scala">def duplica(niveles: Niveles) = niveles._1 * 2 + niveles._2 * 2 + niveles._3 * 2
+</code></pre>
+
+<p>Si ahora queremos definir otro efecto que se quede con el máximo valor entre cada nivel y 7, tendríamos que duplicar la lógica de la función anterior en gran parte.</p>
+
+<p>Definamos entonces una función que dada una operación, la aplique a cada nivel:</p>
+
+<pre><code class="language-scala">def mapNiveles(f: Int =&gt; Int, niveles: Niveles) =
+  (f(niveles._1), f(niveles._2), f(niveles._3))
+
+val duplica: Efecto = mapNiveles(_ * 2, _)
+
+val alMenos7: Efecto = mapNiveles(_.max(7), _)
+</code></pre>
+<p>Estamos usando el “_” para aplicar parcialmente una función.</p>
+
+<p>Aplicar parcialmente las funciones es muy importante porque me deja transformarlas en otras funciones más específicas, para componerlas o pasarlas por parámetro.</p>
+
+<p>Una función en Scala puede recibir multiples grupos de parámetros. Dado que en Scala las funciones no están completamente currificadas, uno tiene que declarar “grupos de aplicación” para poder evitar el “_”.</p>
+
+<p>Entonces podemos reescribir la función anterior como:</p>
+
+<pre><code class="language-scala">def mapNiveles(f: Int =&gt; Int)(niveles: Niveles) =
+  (f(niveles._1), f(niveles._2), f(niveles._3))
+
+val duplica: Efecto = mapNiveles(_ * 2)
+
+val alMenos7: Efecto = mapNiveles(_.max(7))
+</code></pre>
+
+<h2 id="composicin-de-funciones">Composición de Funciones</h2>
+
+<p>En el paradigma funcional es importante componer porque las funciones son los ladrillitos con los que construiamos los programas.</p>
+
+<p>En funcional las funciones son chiquitas y cohesivas. Las combinamos entre ellas para construir algoritmos más grandes.</p>
+
+<p>Por ejemplo, en haskell es natural hacer algo como:</p>
+
+<pre><code>(length . filter aprobado . map parcial) alumnos
+</code></pre>
+
+<p>Tenemos las funciones length, filter y map (sin contar las que usamos cómo parámetro) y las combinamos en secuencia para hacer algoritmos más complejos.</p>
+
+<p>En el paradigma orientado a objetos hacemos:</p>
+
+<pre><code>alumnos.map(_.parcial).filter(_.aprobado).length
+</code></pre>
+
+<p>Cual es la diferencia?</p>
+
+<p>En funcional cada uno tiene que construir las operaciones por afuera de los datos, en objetos los mismos datos pueden proveer las funciones. No necesitamos componer, porque podemos mandarle mensajes al resultado de una operación.</p>
+
+<p>Creemos las siguientes funciones y veamos como funciona la composición:</p>
+
+<ul>
+  <li>Sumar el valor de todos los niveles</li>
+</ul>
+
+<pre><code class="language-scala">val toList: Niveles =&gt; List[Int] = niveles =&gt; List(niveles._1, niveles._2, niveles._3)
+val sumaNiveles: Niveles =&gt; Int = toList.andThen(_.sum)
+</code></pre>
+
+<ul>
+  <li>Calcular la diferencia entre el nivel más alto y el más bajo</li>
+</ul>
+
+<pre><code class="language-scala">val maxNivel: Niveles =&gt; Int = toList.andThen(_.max)
+val minNivel: Niveles =&gt; Int = toList.andThen(_.min)
+val diferenciaNiveles: Niveles =&gt; Int = niveles =&gt; maxNivel(niveles) - minNivel(niveles)
+</code></pre>
+
+<ul>
+  <li>Sumar los niveles de una persona</li>
+</ul>
+
+<pre><code class="language-scala">  def niveles(persona: Persona) = persona._2
+  val sumaNivelesPersona: Persona =&gt; Int = sumaNiveles.compose(niveles)
+</code></pre>
+
+<p>Podemos ver que las funciones pueden ser compuestas usando “andThen” y “compose” para crear nuevas funciones más complejas.</p>
+
+<h3 id="pociones">Pociones</h3>
+<p>Una poción es una tupla de nombre y lista de ingredientes.
+Los ingredientes son una 3-upla de nombre, cantidad del ingrediente y lista de efectos.</p>
+
+<pre><code class="language-scala">type Ingrediente = (String, Int, List[Efecto])
+type Pocion = (String, List[Ingrediente])
+
+// Pociones
+val multijugos = ("Multijugos", List(
+  ("Cuerno de Bicornio en Polvo", 10, List(invierte, suerteEsConvencimiento)),
+  ("Sanguijuela hormonal", 54, List(duplica, suerteEsConvencimiento))
+))
+
+val felixFelices = ("Felix Felices", List(
+  ("Escarabajos Machacados", 52, List(duplica, alMenos7)),
+  ("Ojo de Tigre Sucio", 2, List(suerteEsConvencimiento))
+))
+
+val floresDeBach = ("Flores de Bach", List(
+  ("Rosita", 8, List(duplica))
+))
+
+val pociones: List[Pocion] = List(felixFelices, multijugos, floresDeBach)
+</code></pre>
+
+<h4 id="funciones-parciales">Funciones Parciales</h4>
+
+<p>Decimos que una poción es “heavy” cuando al menos tiene 2 efectos. Obtengamos una lista de todas las pociones heavies.</p>
+
+<pre><code class="language-scala">def efectos(ingrediente: Ingrediente) = ingrediente._3
+val todosLosEfectos: List[Ingrediente] =&gt; List[Efecto] = _.flatMap(efectos)
+val ingredientes: Pocion =&gt; List[Ingrediente] = _._2
+val efectosPocion: Pocion =&gt; List[Efecto] = todosLosEfectos.compose(ingredientes)
+val esHeavy: Pocion =&gt; Boolean = efectosPocion(_).size &gt;= 2
+def nombre(pocion: Pocion) = pocion._1
+val pocionesHeavies: List[Pocion] =&gt; List[String] = _.filter(esHeavy).map(nombre)
+</code></pre>
+
+<p>Pero también podemos usar pattern matching y funciones parciales para conseguir lo mismo:</p>
+
+<pre><code class="language-scala">val pocionesHeaviesPartial: List[Pocion] =&gt; List[String] = _.collect {
+  case (nombre, ingredientes) if todosLosEfectos(ingredientes).size &gt;= 2 =&gt; nombre
+}
+</code></pre>
+
+<p>Lo que acabamos de definir es una función parcial, una función que no está definida para todos los valores de su dominio.</p>
+
+<p>Scala provee un azucar sintáctico para escribir funciones parciales con una sintaxis identica a la del patern matching sin iniciar con el “match”.</p>
+
+<p>En caso de querer definir una funcion parcial con la misma sintaxis, estamos obligados a hacerlo en una variable o parámetro que esté tipado explicitamente.</p>
+
+<pre><code class="language-scala">val nombreDePocionHeavy: PartialFunction[Pocion, String] = {
+  case (nombre, ingredientes) if todosLosEfectos(ingredientes).size &gt;= 2 =&gt; nombre
+}
+</code></pre>
+
+<p>Las funciones parciales son un tipo particular de “Function1[A, B]” o “A =&gt; B”. Ellas extienden la interfaz de las funciones y le agregan más comportamiento.</p>
+
+<p>Que pasa si a una función parcial la evalúo con un valor para la cual no está definida? Lanza una excepción (MatchError).</p>
+
+<p>Para evitar esto puedo utilizar los métodos que me provee, como por ejemplo:</p>
+
+<p>Puedo preguntar si una funcion parcial está definida para un valor:</p>
+
+<pre><code class="language-scala">nombreDePocionHeavy.isDefinedAt(felixFelices) // true
+nombreDePocionHeavy.isDefinedAt(floresDeBach) // false
+</code></pre>
+
+<p>Puedo pasarle una función de fallback:</p>
+
+<pre><code class="language-scala">val nombreDePocionConFallback = nombreDePocionHeavy.orElse {
+  case (nombre, _) =&gt; s"$nombre no es heavy"
+}
+nombreDePocionConFallback(felixFelices) // Felix Felices
+nombreDePocionConFallback(floresDeBach) // Flores de Bach no es heavy
+</code></pre>
+
+<p>Y puedo transformarla en una función que si esté definida para todo su dominio (cambia el tipo de retorno a Optional usando None para los valores no definidos):</p>
+
+<pre><code class="language-scala">nombreDePocionHeavy.lift(felixFelices) // Some("Felix Felices")
+nombreDePocionHeavy.lift(floresDeBach) // None
+</code></pre>
+
+<p>Ya (abu)usamos funciones parciales anteriormente para utilizar la deconstrucción por patrones y hacer más facil la definición de una función. Veamos como escribir de diferentes maneras el efecto “invierte”:</p>
+
+<pre><code class="language-scala">val invierte1: Efecto = niveles =&gt; (niveles._3, niveles._2, niveles._1)
+val invierte2: Efecto = {
+  case (a, b, c) =&gt; (c, b, a)
+}
+</code></pre>
+
+<p>Como las funciones parciales también son funciones, la definición anterior es totalmente valida y dado que estamos incluyendo todos los valores del dominio, esas funciones son análogas.</p>
+
+
+		</div>
+	</div>
+</div>
+
+<hr>
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    <li>
+                        <a href="/feed.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    
+                    <li>
+                        <a href="https://github.com/tadp-utn-frba">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                </ul>
+                <p class="copyright text-muted">Copyright &copy; TADP 2017</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/clean-blog.min.js "></script>
+
+<!-- prism.js -->
+<script src="/js/prism.js "></script>
+
+
+</body>
+
+</html>
